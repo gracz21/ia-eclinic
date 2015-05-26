@@ -1,0 +1,28 @@
+%header.navbar.navbar-inverse
+  .container
+    =link_to "eClinic", root_path, :class => "navbar-brand"
+    %nav
+      %ul.nav.navbar-nav.navbar-right
+        - if patient_signed_in? or doctor_signed_in?
+          - if current_patient
+            %li=link_to "Doctors", doctors_path
+            %li.dropdown
+            %a.dropdown-toggle{ :id => "menu1", "data-toggle" => "dropdown", :href => "#", :type => "button" }
+              =current_patient.email
+              %span.caret
+            %ul.dropdown-menu{ :role => "menu", "aria-labelledby" => "menu1" }
+              %li=link_to "Edit account", edit_patient_registration_path
+              %li=link_to "Sign out", destroy_patient_session_path, :method=>'delete'
+          - if current_doctor
+            %li=link_to "Patients", patients_path
+            %li.dropdown
+            %a.dropdown-toggle{ :id => "menu1", "data-toggle" => "dropdown", :href => "#", :type => "button" }
+              =current_doctor.email
+              %span.caret
+            %ul.dropdown-menu{ :role => "menu", "aria-labelledby" => "menu1" }
+              %li=link_to "Edit account", edit_doctor_registration_path
+              %li=link_to "Sign out", destroy_doctor_session_path, :method=>'delete'
+            
+        - else
+          %li=link_to "Sign in", new_patient_session_path
+          %li=link_to "Sign up", new_patient_registration_path

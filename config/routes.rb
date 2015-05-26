@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :patients
+  root 'static_pages#home'
+
+  scope "auth" do
+    devise_for :doctors
+    devise_for :patients
+  end
+  
+  resources :doctors
   resources :patients
 
   # The priority is based upon order of creation: first created -> highest priority.
