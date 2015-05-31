@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :clinics
+
+  devise_for :admins
   root 'static_pages#home'
 
   scope "auth" do
