@@ -10,4 +10,17 @@ class Patient < ActiveRecord::Base
               maximum: 11,
               too_short: "must have at least %{count} numbers",
               too_long: "must have at most %{count} numbers" }
+              
+    def active_for_authentication? 
+      super && approved? 
+    end 
+  
+    def inactive_message 
+      if !approved? 
+        :not_approved 
+      else 
+        super 
+      end 
+    end
+  
 end

@@ -4,7 +4,11 @@ class PatientsController < ApplicationController
   respond_to :html
 
   def index
-    @patients = Patient.all
+    if params[:approved] == "false"
+      @patients = Patient.where(approved: false)
+    else
+      @patients = Patient.all
+    end
     respond_with(@patients)
   end
 

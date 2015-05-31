@@ -30,7 +30,8 @@ class Seed
                     first_name: 'Zdzichu',
                     last_name: 'Krawężnik',
                     pesel: '00010137489',
-                    address: 'Januszowo')
+                    address: 'Januszowo',
+                    approved: true)
   end
   
 end

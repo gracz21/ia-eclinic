@@ -1,5 +1,9 @@
 %h1 Listing patients
 
+= link_to "All Users", :action => "index"
+|
+= link_to "Users awaiting approval", :action => "index", :approved => "false"
+
 %table
   %thead
     %tr
