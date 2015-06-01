@@ -1,2 +1,20 @@
-%h1 StaticPages#home
-%p Find me in app/views/static_pages/home.html.haml
+.container
+  - if patient_signed_in? or doctor_signed_in? or admin_signed_in?
+    %h1.center WELCOME
+  - else
+    %h1 Sign in
+    .jumbotron
+      %ul.nav.nav-tabs
+        %li.active= link_to "Patient", '#patient_login', "data-toggle" => "tab"
+        %li= link_to "Doctor", '#doctor_login', "data-toggle" => "tab"
+        %li= link_to "Admin", '#admin_login', "data-toggle" => "tab"
+      
+      .tab-content
+        .tab-pane.fade.in.active{ :id => "patient_login" }
+          = render 'patient_home_sign_in'
+        .tab-pane.fade{ :id => "doctor_login" }
+          = render 'doctor_home_sign_in'
+        .tab-pane.fade{ :id => "admin_login" }
+          = render 'admin_home_sign_in'
+    %h2 Are you new patient?
+    =link_to "Sign up", new_patient_registration_path, :class => "btn btn-lg btn-primary btn-block"

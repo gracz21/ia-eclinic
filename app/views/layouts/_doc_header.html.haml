@@ -1,0 +1,7 @@
+%li=link_to "Patients", patients_path
+%li.dropdown
+  %a.dropdown-toggle{ :id => "menu1", "data-toggle" => "dropdown", :href => "#", :type => "button" }
+    =current_doctor.email
+    %span.caret
+  %ul.dropdown-menu{ :role => "menu", "aria-labelledby" => "menu1" }
+    %li=link_to "Sign out", destroy_doctor_session_path, :method=>'delete'

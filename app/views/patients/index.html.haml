@@ -1,31 +1,35 @@
-%h1 Listing patients
+.container
+  %h1 Patients
 
-= link_to "All Users", :action => "index"
-|
-= link_to "Users awaiting approval", :action => "index", :approved => "false"
-
-%table
-  %thead
-    %tr
-      %th First name
-      %th Last name
-      %th Pesel
-      %th Address
-      %th
-      %th
-      %th
-
-  %tbody
-    - @patients.each do |patient|
-      %tr
-        %td= patient.first_name
-        %td= patient.last_name
-        %td= patient.pesel
-        %td= patient.address
-        %td= link_to 'Show', patient
-        %td= link_to 'Edit', edit_patient_path(patient)
-        %td= link_to 'Destroy', patient, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Patient', new_patient_path
+  .row
+    .col-md-2
+      %h4 Menu
+      %ul.nav.nav-pills.nav-stacked
+        %li.active{ :role => "presentation" }= link_to 'New Patient', new_patient_path
+        %li{ :role => "presentation" }= link_to "Show all Users", :action => "index"
+        %li{ :role => "presentation" }= link_to "Show users awaiting approval", :action => "index", :approved => "false"
+    
+    .col-md-10
+      %table.table.table-striped
+        %thead
+          %tr
+            %th E-mail
+            %th First name
+            %th Last name
+            %th Pesel
+            %th Address
+            %th
+            %th
+            %th
+      
+        %tbody
+          - @patients.each do |patient|
+            %tr
+              %td= patient.email
+              %td= patient.first_name
+              %td= patient.last_name
+              %td= patient.pesel
+              %td= patient.address
+              %td= link_to 'Show', patient, :class => "btn btn-default"
+              %td= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default"
+              %td= link_to 'Destroy', patient, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
