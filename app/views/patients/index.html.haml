@@ -5,9 +5,8 @@
     .col-md-2
       %h4 Menu
       %ul.nav.nav-pills.nav-stacked
-        %li.active{ :role => "presentation" }= link_to 'New Patient', new_patient_path
-        %li{ :role => "presentation" }= link_to "Show all Users", :action => "index"
-        %li{ :role => "presentation" }= link_to "Show users awaiting approval", :action => "index", :approved => "false"
+        %li{ :role => "presentation" }= link_to 'Show all Users', patients_path
+        %li{ :role => "presentation" }= link_to 'Show users awaiting approval', patients_path(:approved => 'false')
     
     .col-md-10
       %table.table.table-striped
@@ -21,6 +20,7 @@
             %th
             %th
             %th
+            %th
       
         %tbody
           - @patients.each do |patient|
@@ -30,6 +30,10 @@
               %td= patient.last_name
               %td= patient.pesel
               %td= patient.address
+              - if !patient.approved
+                %td= link_to 'Activate', activate_patient_path(patient, :activate => 'true'), :class => "btn btn-success", :method => :post
+              - else
+                %td= link_to 'Deactivate', activate_patient_path(patient, :activate => 'false'), :class => "btn btn-danger", :method => :post
               %td= link_to 'Show', patient, :class => "btn btn-default"
               %td= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default"
               %td= link_to 'Destroy', patient, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"

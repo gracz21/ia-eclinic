@@ -1,5 +1,5 @@
 class PatientsController < ApplicationController
-  before_action :set_patient, only: [:show, :edit, :update, :destroy]
+  before_action :set_patient, only: [:show, :edit, :update, :destroy, :activate]
 
   respond_to :html
 
@@ -38,6 +38,16 @@ class PatientsController < ApplicationController
   def destroy
     @patient.destroy
     respond_with(@patient)
+  end
+  
+  def activate
+    if params[:activate] == "true"
+      @patient.approved = true
+    else
+      @patient.approved = false
+    end
+    @patient.save
+    redirect_to(:back)
   end
 
   private

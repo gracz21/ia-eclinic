@@ -4,6 +4,7 @@ class Seed
     admin
     doc
     patient
+    clinic
   end
   
   private
@@ -32,6 +33,10 @@ class Seed
                     pesel: '00010137489',
                     address: 'Januszowo',
                     approved: true)
+  end
+  
+  def self.clinic
+    Clinic.create!(name: 'Princeton-Plainsboro')
   end
   
 end
