@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531213718) do
+ActiveRecord::Schema.define(version: 20150705203134) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(version: 20150531213718) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "clinics_doctors", force: true do |t|
+    t.integer "clinic_id"
+    t.integer "doctor_id"
+  end
+
+  add_index "clinics_doctors", ["clinic_id", "doctor_id"], name: "index_clinics_doctors_on_clinic_id_and_doctor_id"
 
   create_table "doctors", force: true do |t|
     t.string   "first_name"

@@ -1,15 +1,32 @@
 %p#notice= notice
 
-%p
-  %b First name:
-  = @doctor.first_name
-%p
-  %b Last name:
-  = @doctor.last_name
-%p
-  %b Pwz:
-  = @doctor.pwz
-
-= link_to 'Edit', edit_doctor_path(@doctor)
-\|
-= link_to 'Back', doctors_path
+.container
+  .jumbotron
+    %h2
+      %b
+      = @doctor.first_name
+      = @doctor.last_name
+    %h3
+      %b Nr. PWZ:
+      = @doctor.pwz
+      
+    %p
+      %b Assigned clinics:
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Name
+            %th
+            %th
+            %th
+      
+        %tbody
+          - @doctor.clinics.each do |clinic|
+            %tr
+              %td= clinic.name
+              %td
+              %td
+              %td
+  
+  = link_to 'Edit', edit_doctor_path(@doctor), :class => "btn btn-default"
+  = link_to 'Back', doctors_path, :class => "btn btn-default"
