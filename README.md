@@ -1,2 +1,2 @@
 # ia-eclinic
-Internet application for clinics as a project on Internet Applications subject
+Internet application in Ruby on Rails for clinics as a project on Internet Applications subject
