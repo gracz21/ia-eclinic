@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :patients
   
   post 'patients/activate/:id' => 'patients#activate', as: :activate_patient
+  patch 'doctors/:id/assign' => 'doctors#assign_clinic', as: :doctor_assign_clinic
+  patch 'doctors/:id/unassign' => 'doctors#unassign_clinic', as: :doctor_unassign_clinic
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
