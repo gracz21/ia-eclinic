@@ -1,5 +1,8 @@
 class ClinicsController < ApplicationController
+  include ApplicationHelper
   before_action :set_clinic, only: [:show, :edit, :update, :destroy]
+  before_action :is_logged_in
+  before_action :is_admin, only: [:new, :create, :edit, :update, :destroy]
 
   respond_to :html
 

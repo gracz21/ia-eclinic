@@ -1,6 +1,10 @@
 class DoctorsController < ApplicationController
+  include ApplicationHelper
   before_action :set_doctor, only: [:show, :edit, :update, :destroy,
     :assign_clinic, :unassign_clinic]
+  before_action :is_logged_in
+  before_action :is_admin, only: [:show, :new, :edit, :destroy,
+    :create, :update, :assign_clinic, :unassign_clinic]
 
   respond_to :html
 
@@ -10,12 +14,8 @@ class DoctorsController < ApplicationController
   end
 
   def show
-    if current_admin
-      @clinics = Clinic.where.not(id: @doctor.clinic_ids)
-      respond_with(@doctor)
-    else
-      redirect_to root_url, notice: "You are not allowed to do that!"
-    end
+    @clinics = Clinic.where.not(id: @doctor.clinic_ids)
+    respond_with(@doctor)
   end
 
   def new
@@ -38,12 +38,8 @@ class DoctorsController < ApplicationController
   end
 
   def destroy
-    if !current_patient
-      @doctor.destroy
-      respond_with(@doctor)
-    else
-      redirect_to root_url, notice: "You are not allowed to delete doctors!"
-    end
+    @doctor.destroy
+    respond_with(@doctor)
   end
   
   def assign_clinic

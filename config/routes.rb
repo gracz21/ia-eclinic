@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   resources :clinics
-
-  devise_for :admins
+  
   root 'static_pages#home'
 
   scope "auth" do
     devise_for :doctors
     devise_for :patients
+    devise_for :admins
   end
   
   resources :doctors

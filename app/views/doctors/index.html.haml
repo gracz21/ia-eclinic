@@ -2,11 +2,12 @@
   %h1 Doctors
   
   .row
-    .col-md-2
-      %h4 Menu
-      %ul.nav.nav-pills.nav-stacked
-        %li.active{ :role => "presentation" }= link_to 'New Doctor', new_doctor_path
-    
+    - if current_admin
+      .col-md-2
+        %h4 Menu
+        %ul.nav.nav-pills.nav-stacked
+          %li.active{ :role => "presentation" }= link_to 'New Doctor', new_doctor_path
+      
     .col-md-10
       %table.table.table-striped
         %thead
@@ -15,9 +16,10 @@
             %th First name
             %th Last name
             %th Pwz
-            %th
-            %th
-            %th
+            - if current_admin
+              %th
+              %th
+              %th
       
         %tbody
           - @doctors.each do |doctor|
@@ -26,6 +28,7 @@
               %td= doctor.first_name
               %td= doctor.last_name
               %td= doctor.pwz
-              %td= link_to 'Show', doctor, :class => "btn btn-default"
-              %td= link_to 'Edit', edit_doctor_path(doctor), :class => "btn btn-default"
-              %td= link_to 'Destroy', doctor, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
+              - if current_admin
+                %td= link_to 'Show', doctor, :class => "btn btn-default"
+                %td= link_to 'Edit', edit_doctor_path(doctor), :class => "btn btn-default"
+                %td= link_to 'Destroy', doctor, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
