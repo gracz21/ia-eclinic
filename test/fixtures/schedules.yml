@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assignment_id: 1
+  weekday: 1
+  start_hour: 2015-07-07 13:26:26
+  end_hour: 2015-07-07 13:26:26
+
+two:
+  assignment_id: 1
+  weekday: 1
+  start_hour: 2015-07-07 13:26:26
+  end_hour: 2015-07-07 13:26:26

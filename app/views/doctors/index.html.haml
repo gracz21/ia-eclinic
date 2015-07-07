@@ -16,6 +16,7 @@
             %th First name
             %th Last name
             %th Pwz
+            %th
             - if current_admin
               %th
               %th
@@ -28,6 +29,7 @@
               %td= doctor.first_name
               %td= doctor.last_name
               %td= doctor.pwz
+              %td= link_to 'Schedule', doctor_schedules_path(doctor), :class => "btn btn-default"
               - if current_admin
                 %td= link_to 'Show', doctor, :class => "btn btn-default"
                 %td= link_to 'Edit', edit_doctor_path(doctor), :class => "btn btn-default"

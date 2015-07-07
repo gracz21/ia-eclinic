@@ -1,16 +1,18 @@
 Rails.application.routes.draw do
-  resources :clinics
   
   root 'static_pages#home'
+
+  resources :clinics
+  resources :doctors do
+    resources :schedules
+  end
+  resources :patients
 
   scope "auth" do
     devise_for :doctors
     devise_for :patients
     devise_for :admins
   end
-  
-  resources :doctors
-  resources :patients
   
   post 'patients/activate/:id' => 'patients#activate', as: :activate_patient
   patch 'doctors/:id/assign' => 'doctors#assign_clinic', as: :doctor_assign_clinic

@@ -1,0 +1,22 @@
+= form_for @schedule, url: form_url  do |f|
+  - if @schedule.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@schedule.errors.count, "error")} prohibited this schedule from being saved:"
+      %ul
+        - @schedule.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :clinic
+    = f.collection_select :assignment_id, @doctor.clinics, :id, :name
+  .field
+    = f.label :weekday
+    = f.collection_select :weekday, @weekday_list, :id, :name
+  .field
+    = f.label :start_hour
+    = f.time_select :start_hour, {minute_step: 30}
+  .field
+    = f.label :end_hour
+    = f.time_select :end_hour, {minute_step: 30}
+  .actions
+    = f.submit 'Save', :class => "btn btn-default"

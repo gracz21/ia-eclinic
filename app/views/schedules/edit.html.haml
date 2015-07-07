@@ -1,0 +1,7 @@
+.container
+  %h1 Editing schedule
+  
+  = render 'form', form_url: doctor_schedule_path 
+
+  = link_to 'Show', doctor_schedule_path(@doctor, @schedule), :class => "btn btn-default"
+  = link_to 'Back', doctor_schedules_path, :class => "btn btn-default"

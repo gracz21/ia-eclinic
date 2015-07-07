@@ -1,0 +1,17 @@
+%p#notice= notice
+
+%p
+  %b Assignment:
+  = @schedule.assignment_id
+%p
+  %b Weekday:
+  = @schedule.weekday
+%p
+  %b Start hour:
+  = @schedule.start_hour
+%p
+  %b End hour:
+  = @schedule.end_hour
+
+= link_to 'Edit', edit_doctor_schedule_path(@doctor, @schedule), :class => "btn btn-default"
+= link_to 'Back', doctor_schedules_path, :class => "btn btn-default"
