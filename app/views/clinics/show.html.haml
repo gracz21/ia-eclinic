@@ -1,9 +1,36 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @clinic.name
-
-= link_to 'Edit', edit_clinic_path(@clinic)
-\|
-= link_to 'Back', clinics_path
+.container
+  .row
+    .col-md-2
+      %h4 Actions
+      %ul.nav.nav-pills.nav-stacked
+        - if current_admin
+          %li.active{ :role => "presentation" }= link_to 'Edit', edit_clinic_path(@clinic)
+        %li{ :role => "presentation" }= link_to 'Back', clinics_path
+        
+    .col-md-10
+      .jumbotron
+        %h2
+          = @clinic.name
+        %p
+          %b Assigned doctors:
+        
+        - if @doctors.size > 0  
+          %table.table.table-striped
+            %thead
+              %tr
+                %th First name
+                %th Last name
+                %th PWZ No.
+                %th
+                
+            %tbody
+              - @doctors.each do |doctor|
+                %tr
+                  %td= doctor.first_name
+                  %td= doctor.last_name
+                  %td= doctor.pwz
+                  %td= link_to 'Cos', '#', :class => "btn btn-default"
+        - else
+          No doctors assigned yet

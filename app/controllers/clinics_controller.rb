@@ -12,6 +12,7 @@ class ClinicsController < ApplicationController
   end
 
   def show
+    @doctors = @clinic.doctors
     respond_with(@clinic)
   end
 

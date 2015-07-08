@@ -1,0 +1,32 @@
+.container
+  %h1 Appointments
+  
+  .row
+    - if current_patient
+      .col-md-2
+        %h4 Menu
+        %ul.nav.nav-pills.nav-stacked
+          %li.active{ :role => "presentation" }= link_to 'New Appointment', new_appointment_path
+  
+    .col-md-10
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Patient
+            %th Assignment
+            %th Day
+            %th Hour
+            %th
+            %th
+            %th
+    
+        %tbody
+          - @appointments.each do |appointment|
+            %tr
+              %td= appointment.patient_id
+              %td= appointment.assignment_id
+              %td= appointment.day
+              %td= appointment.hour.strftime('%H:%M')
+              %td= link_to 'Show', appointment
+              %td= link_to 'Edit', edit_appointment_path(appointment)
+              %td= link_to 'Destroy', appointment, :method => :delete, :data => { :confirm => 'Are you sure?' }

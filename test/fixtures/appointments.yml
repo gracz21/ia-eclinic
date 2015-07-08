@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_id: 1
+  assignment_id: 1
+  day: 2015-07-07
+  hour: 2015-07-07 17:17:46
+
+two:
+  patient_id: 1
+  assignment_id: 1
+  day: 2015-07-07
+  hour: 2015-07-07 17:17:46

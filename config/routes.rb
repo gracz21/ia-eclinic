@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  
-  root 'static_pages#home'
 
+  root 'static_pages#home'
+  
+  get 'appointments/doctor_options', as: :doctor_options
+  
+  resources :appointments
+  
   resources :clinics
   resources :doctors do
     resources :schedules

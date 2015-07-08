@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Patient:
+  = @appointment.patient_id
+%p
+  %b Assignment:
+  = @appointment.assignment_id
+%p
+  %b Day:
+  = @appointment.day
+%p
+  %b Hour:
+  = @appointment.hour
+
+= link_to 'Edit', edit_appointment_path(@appointment)
+\|
+= link_to 'Back', appointments_path

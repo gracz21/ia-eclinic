@@ -3,7 +3,8 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: [:show, :edit, :update, :destroy, :activate]
   before_action :is_logged_in
   before_action :is_not_patient
-
+  before_action :is_admin, only: [:destroy, :activate]
+  
   respond_to :html
 
   def index

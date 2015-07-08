@@ -12,10 +12,11 @@
       %table.table.table-striped
         %thead
           %tr
-            %th E-mail
+            - if current_admin
+              %th E-mail
             %th First name
             %th Last name
-            %th Pwz
+            %th PWZ No.
             %th
             - if current_admin
               %th
@@ -25,7 +26,8 @@
         %tbody
           - @doctors.each do |doctor|
             %tr
-              %td= doctor.email
+              - if current_admin
+                %td= doctor.email
               %td= doctor.first_name
               %td= doctor.last_name
               %td= doctor.pwz

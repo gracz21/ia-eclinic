@@ -1,0 +1,23 @@
+= form_for @appointment do |f|
+  - if @appointment.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@appointment.errors.count, "error")} prohibited this appointment from being saved:"
+      %ul
+        - @appointment.errors.full_messages.each do |msg|
+          %li= msg
+          
+  = fields_for :assignment do |as_f|
+    .field
+      = as_f.label :clinic
+      = as_f.collection_select :clinic_id, @clinics, :id, :name, :prompt => "Select clinic first"
+    .field
+      = as_f.label :doctor
+      = as_f.collection_select :doctor_id, @doctors, :id, :last_name
+  .field
+    = f.label :day
+    = f.date_select :day
+  .field
+    = f.label :hour
+    = f.time_select :hour, {minute_step: 30}
+  .actions
+    = f.submit 'Save'

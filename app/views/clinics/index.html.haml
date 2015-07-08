@@ -1,5 +1,5 @@
 .container
-  %h1 Listing clinics
+  %h1 Clinics
 
   .row
     - if current_admin
@@ -14,8 +14,8 @@
         %thead
           %tr
             %th Name
+            %th
             - if !current_admin
-              %th
               %th
               %th
       
@@ -23,7 +23,7 @@
           - @clinics.each do |clinic|
             %tr
               %td= clinic.name
+              %td= link_to 'Show', clinic, :class => "btn btn-default"
               - if current_admin
-                %td= link_to 'Show', clinic, :class => "btn btn-default"
                 %td= link_to 'Edit', edit_clinic_path(clinic), :class => "btn btn-default"
                 %td= link_to 'Destroy', clinic, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
