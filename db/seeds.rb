@@ -37,6 +37,7 @@ class Seed
   
   def self.clinic
     Clinic.create!(name: 'Princeton-Plainsboro')
+    Clinic.create!(name: 'Szpital w Leśnej Górze')
   end
   
 end

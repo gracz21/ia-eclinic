@@ -46,7 +46,7 @@ class SchedulesController < ApplicationController
     end
     @assignment.schedules << @schedule
     @schedule.save
-    redirect_to doctor_schedule_url(@doctor, @schedule)
+    redirect_to doctor_schedule_url(@doctor, @schedule.id)
   end
 
   def update

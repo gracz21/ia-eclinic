@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  has_many :appointments
+  has_many :appointments, :dependent => :delete_all
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

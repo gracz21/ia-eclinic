@@ -15,7 +15,7 @@
       = as_f.collection_select :doctor_id, @doctors, :id, :last_name
   .field
     = f.label :day
-    = f.date_select :day
+    = f.text_field :day, :placeholder => "Select date"
   .field
     = f.label :hour
     = f.time_select :hour, {minute_step: 30}

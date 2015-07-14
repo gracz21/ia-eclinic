@@ -22,7 +22,8 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new
-    @clinics = Clinic.all
+    assignments = Assignment.all
+    @clinics = Clinic.where(id: assignments)
     @doctors = []
     respond_with(@appointment)
   end
@@ -42,8 +43,34 @@ class AppointmentsController < ApplicationController
   end
   
   def doctor_options
-    clinic = Clinic.find(params[:clinic_id])
-    @doctors = Doctor.where(id: clinic.assignment_ids)
+    if params[:clinic_id] != ''
+      clinic = Clinic.find(params[:clinic_id])
+      @doctors = Doctor.where(id: clinic.assignment_ids)
+    else
+      @doctors = []
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  #current_time - current_time.sec - current_time.min%30*60 + 30.minutes
+  
+  def appointment_options
+    @appointments = []
+    if params[:day] != ''
+      day = params[:day].to_date
+      assignment = Assignment.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).first
+      schedules = Schedule.where(assignment_id: assignment.id, weekday: day.to_date.wday)
+      registered_appointments = Appointment.where(assignment_id: assignment.id, day: day)
+      schedules.each do |schedule|
+        current = schedule.start_hour
+        while current < schedule.end_hour do
+          #cos
+          current += 30.minutes
+        end
+      end
+    end
     respond_to do |format|
       format.js
     end
@@ -60,6 +87,6 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointment).permit(:patient_id, :assignment_id, :day, :hour)
+      params.require(:appointment).permit(:patient_id, :assignment_id, :day.to_date, :hour)
     end
 end

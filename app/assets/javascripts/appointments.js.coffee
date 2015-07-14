@@ -14,3 +14,8 @@ $ ->
         console.log("AJAX Error: #{textStatus}")
       success: (data, textStatus, jqXHR) ->
         console.log("Dynamic country select OK!")
+
+$(document).on 'page:load ready', ->
+  $("#appointment_day").datepicker(dateFormat: "dd.mm.yy", 
+  minDate: new Date(), beforeShowDay: $.datepicker.noWeekends,
+  firstDay: 1)

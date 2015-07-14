@@ -50,7 +50,7 @@ class DoctorsController < ApplicationController
   end
   
   def unassign_clinic
-    @doctor.clinics.delete(params[:doctor][:clinics])
+    @doctor.clinics.destroy(params[:doctor][:clinics])
     @doctor.save
     respond_with(@doctor)
   end

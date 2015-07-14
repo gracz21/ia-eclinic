@@ -36,10 +36,9 @@
         %p
           %b Assigned clinics:
           %br
-          %br
           - if @doctor.clinics.size > 0
             - @doctor.clinics.each do |clinic|
-              = clinic.name
-              %br
+              %p
+                = clinic.name
           - else
             No clinics assigned yet

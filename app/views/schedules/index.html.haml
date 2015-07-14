@@ -5,11 +5,12 @@
     = @doctor.last_name
   
   .row
-    - if current_admin
-      .col-md-2
-        %h4 Menu
-        %ul.nav.nav-pills.nav-stacked
+    .col-md-2
+      %h4 Menu
+      %ul.nav.nav-pills.nav-stacked
+        - if current_doctor
           %li.active{ :role => "presentation" }= link_to 'New Schedule', new_doctor_schedule_path
+        %li{ :role => "presentation" }= link_to 'Back', doctors_path
   
     .col-md-10
       %table.table.table-striped
@@ -30,8 +31,9 @@
               %td= @clinic_names[i]
               %td= schedule.start_hour.strftime('%H:%M')
               %td= schedule.end_hour.strftime('%H:%M')
-              %td= link_to 'Show', doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
-              %td= link_to 'Edit', edit_doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
-              %td= link_to 'Destroy', doctor_schedule_path(@doctor, schedule),
-                :method => :delete, :data => { :confirm => 'Are you sure?' },
-                :class => "btn btn-default"
+              - if current_doctor
+                %td= link_to 'Show', doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
+                %td= link_to 'Edit', edit_doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
+                %td= link_to 'Destroy', doctor_schedule_path(@doctor, schedule),
+                  :method => :delete, :data => { :confirm => 'Are you sure?' },
+                  :class => "btn btn-default"
