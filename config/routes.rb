@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   
   get 'appointments/doctor_options', as: :doctor_options
+  get 'appointments/hour_options', as: :hour_options
   
   resources :appointments
   

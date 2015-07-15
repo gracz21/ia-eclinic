@@ -1,0 +1,2 @@
+- hours.each do |hour|
+  %option{:value => hour.time.strftime("%Y-%m-%d %H:%M")}= hour.time.strftime('%H:%M')

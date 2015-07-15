@@ -25,6 +25,7 @@ class AppointmentsController < ApplicationController
     assignments = Assignment.all
     @clinics = Clinic.where(id: assignments)
     @doctors = []
+    @hours = []
     respond_with(@appointment)
   end
 
@@ -33,6 +34,8 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
+    @appointment.patient_id = current_patient.id
+    @assignment.appointments << @appointment
     @appointment.save
     respond_with(@appointment)
   end
@@ -54,20 +57,26 @@ class AppointmentsController < ApplicationController
     end
   end
   
-  #current_time - current_time.sec - current_time.min%30*60 + 30.minutes
-  
-  def appointment_options
-    @appointments = []
+  def hour_options
+    hour = Struct.new(:id, :time)
+    @hours = []
     if params[:day] != ''
       day = params[:day].to_date
       assignment = Assignment.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).first
       schedules = Schedule.where(assignment_id: assignment.id, weekday: day.to_date.wday)
-      registered_appointments = Appointment.where(assignment_id: assignment.id, day: day)
+      appointments = Appointment.where(assignment_id: assignment.id, day: day)
+      i = 1
+      current = Time.zone.now - Time.zone.now.sec - Time.zone.now.min%30*60 + 30.minutes
       schedules.each do |schedule|
-        current = schedule.start_hour
-        while current < schedule.end_hour do
-          #cos
-          current += 30.minutes
+        if day != Date.today
+          current = schedule.start_hour
+        end
+        while current.strftime('%H%M') < schedule.end_hour.strftime('%H%M') do
+          if !appointments.any?{|appointment| appointment.hour.strftime('%H%M') == current.strftime('%H%M')}
+            @hours << hour.new(i, current)
+          end
+          i += 1
+          current = current + 30.minutes
         end
       end
     end
@@ -87,6 +96,8 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointment).permit(:patient_id, :assignment_id, :day.to_date, :hour)
+      @assignment = Assignment.where(doctor_id: params[:appointment][:assignment][:doctor_id],
+        clinic_id: params[:appointment][:assignment][:clinic_id]).first
+      params.require(:appointment).permit(@assignment, :day, :hour)
     end
 end

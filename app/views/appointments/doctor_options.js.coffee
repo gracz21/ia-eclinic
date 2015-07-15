@@ -1,2 +1,2 @@
-$("#assignment_doctor_id").empty()
+$("#appointment_assignment_doctor_id").empty()
   .append("<%= escape_javascript(render(:partial => @doctors)) %>")

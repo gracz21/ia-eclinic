@@ -6,7 +6,7 @@
         - @appointment.errors.full_messages.each do |msg|
           %li= msg
           
-  = fields_for :assignment do |as_f|
+  = f.fields_for :assignment do |as_f|
     .field
       = as_f.label :clinic
       = as_f.collection_select :clinic_id, @clinics, :id, :name, :prompt => "Select clinic first"
@@ -18,6 +18,6 @@
     = f.text_field :day, :placeholder => "Select date"
   .field
     = f.label :hour
-    = f.time_select :hour, {minute_step: 30}
+    = f.collection_select :hour, @hours, :time, :time, :prompt => "Select hour"
   .actions
     = f.submit 'Save'
