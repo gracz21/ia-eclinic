@@ -1,0 +1,3 @@
+%option= 'Select doctor'
+- doctors.each do |doctor|
+  %option{:value => doctor.id}= doctor.last_name

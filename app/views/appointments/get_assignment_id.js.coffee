@@ -1,0 +1,1 @@
+$("#appointment_assignment_id").val(<%= @assignment_id %>)

@@ -1,18 +1,27 @@
 class AppointmentsController < ApplicationController
+  include ApplicationHelper
+  before_action :is_logged_in
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
+    @patients = []
+    @doctors = []
     if current_patient
       @appointments = current_patient.appointments
+      find_doctors
     end
     if current_doctor
       @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids)
+      find_patients
     end
     if current_admin
       @appointments = Appointment.all
+      find_patients
+      find_doctors
     end
+    
     respond_with(@appointments)
   end
 
@@ -33,9 +42,11 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.new(appointment_params)
-    @appointment.patient_id = current_patient.id
-    @assignment.appointments << @appointment
+    @appointment = current_patient.appointments.build(appointment_params)
+    #@assignment = Assignment.where(assignment_params).first
+    #if @appointment.valid?
+      #@assignment.appointments << @appointment
+    #end
     @appointment.save
     respond_with(@appointment)
   end
@@ -57,6 +68,14 @@ class AppointmentsController < ApplicationController
     end
   end
   
+  def get_assignment_id
+    @assignment_id = Assignment.where(clinic_id: params[:clinic_id],
+                                      doctor_id: params[:doctor_id]).first.id
+    respond_to do |format|
+      format.js
+    end
+  end
+  
   def hour_options
     hour = Struct.new(:id, :time)
     @hours = []
@@ -65,6 +84,9 @@ class AppointmentsController < ApplicationController
       assignment = Assignment.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).first
       schedules = Schedule.where(assignment_id: assignment.id, weekday: day.to_date.wday)
       appointments = Appointment.where(assignment_id: assignment.id, day: day)
+      if !@appointment.nil?
+        appointments -= @appointment
+      end
       i = 1
       current = Time.zone.now - Time.zone.now.sec - Time.zone.now.min%30*60 + 30.minutes
       schedules.each do |schedule|
@@ -94,10 +116,24 @@ class AppointmentsController < ApplicationController
     def set_appointment
       @appointment = Appointment.find(params[:id])
     end
+    
+    def find_patients
+      @appointments.each do |appointment|
+        @patients << Patient.find(appointment.patient_id)
+      end
+    end
+    
+    def find_doctors
+      assignments = []
+      @appointments.each do |appointment|
+        assignments << Assignment.find(appointment.assignment_id)
+      end
+      assignments.each do |assignment|
+        @doctors << Doctor.find(assignment.doctor_id)
+      end
+    end
 
     def appointment_params
-      @assignment = Assignment.where(doctor_id: params[:appointment][:assignment][:doctor_id],
-        clinic_id: params[:appointment][:assignment][:clinic_id]).first
-      params.require(:appointment).permit(@assignment, :day, :hour)
+      params.require(:appointment).permit(:assignment_id, :day, :hour)
     end
 end

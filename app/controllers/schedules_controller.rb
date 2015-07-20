@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
   include ApplicationHelper
+  before_action :is_logged_in
   before_action :set_doc
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
 

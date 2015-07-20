@@ -12,8 +12,10 @@
       %table.table.table-striped
         %thead
           %tr
-            %th Patient
-            %th Assignment
+            - if !current_patient
+              %th Patient
+            - if !current_doctor  
+              %th Doctor
             %th Day
             %th Hour
             %th
@@ -21,12 +23,19 @@
             %th
     
         %tbody
-          - @appointments.each do |appointment|
+          - @appointments.each_with_index do |appointment, i|
             %tr
-              %td= appointment.patient_id
-              %td= appointment.assignment_id
+              - if !current_patient
+                %td
+                  = @patients[i].first_name
+                  = @patients[i].last_name
+              - if !current_doctor
+                %td
+                  = @doctors[i].first_name
+                  = @doctors[i].last_name
               %td= appointment.day
               %td= appointment.hour.strftime('%H:%M')
-              %td= link_to 'Show', appointment
-              %td= link_to 'Edit', edit_appointment_path(appointment)
-              %td= link_to 'Destroy', appointment, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %td= link_to 'Show', appointment, :class => "btn btn-default"
+              %td= link_to 'Edit', edit_appointment_path(appointment), :class => "btn btn-default"
+              %td= link_to 'Destroy', appointment, :method => :delete, 
+                :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"

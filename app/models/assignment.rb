@@ -4,4 +4,6 @@ class Assignment < ActiveRecord::Base
   
   has_many :schedules, :dependent => :destroy
   has_many :appointments, :dependent => :destroy
+  
+  validates :doctor_id, :clinic_id, presence: true
 end
