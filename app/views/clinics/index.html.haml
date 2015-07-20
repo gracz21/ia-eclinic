@@ -15,6 +15,7 @@
           %tr
             %th Name
             %th
+            %th
             - if !current_admin
               %th
               %th
@@ -24,6 +25,7 @@
             %tr
               %td= clinic.name
               %td= link_to 'Show', clinic, :class => "btn btn-default"
+              %td= link_to 'New appointment', appointment_first_free_clinic_path(clinic), :method=>'post', :class => "btn btn-default"
               - if current_admin
                 %td= link_to 'Edit', edit_clinic_path(clinic), :class => "btn btn-default"
                 %td= link_to 'Destroy', clinic, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"

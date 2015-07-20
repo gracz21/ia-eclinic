@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     devise_for :admins
   end
   
+  post 'appointments/first_free_doctor/:doctor_id' => 'appointments#first_free_doctor', as: :appointment_first_free_doctor
+  post 'appointments/first_free_clinic/:clinic_id' => 'appointments#first_free_clinic', as: :appointment_first_free_clinic
   post 'patients/activate/:id' => 'patients#activate', as: :activate_patient
   patch 'doctors/:id/assign' => 'doctors#assign_clinic', as: :doctor_assign_clinic
   patch 'doctors/:id/unassign' => 'doctors#unassign_clinic', as: :doctor_unassign_clinic
