@@ -36,7 +36,8 @@ class SchedulesController < ApplicationController
     if(@schedule.start_hour.strftime('%H%M') >= @schedule.end_hour.strftime('%H%M'))
       redirect_to :back, :notice => "Start hour can't be greater or equal to end hour" and return
     end
-    schedules = Schedule.all
+    assignment = Assignment.where(doctor_id: current_doctor, clinic_id: params[:schedule][:assignment_id]).first
+    schedules = assignment.schedules
     schedules.each do |tmp|
       if tmp.weekday == @schedule.weekday
         if !(@schedule.end_hour.strftime('%H%M') <= tmp.start_hour.strftime('%H%M') or

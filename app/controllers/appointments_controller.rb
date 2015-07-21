@@ -1,19 +1,22 @@
 class AppointmentsController < ApplicationController
   include ApplicationHelper
   before_action :is_logged_in
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :set_appointment, only: [:show, :edit, :update, :confirm_appointment,
+    :destroy]
 
   respond_to :html
 
   def index
     @patients = []
     @doctors = []
+    @clinics = []
     if current_patient
       @appointments = current_patient.appointments
       find_doctors
     end
     if current_doctor
-      @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids)
+      @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids,
+        confirmed: true)
       find_patients
     end
     if current_admin
@@ -21,7 +24,7 @@ class AppointmentsController < ApplicationController
       find_patients
       find_doctors
     end
-    
+    find_clinics
     respond_with(@appointments)
   end
 
@@ -98,11 +101,17 @@ class AppointmentsController < ApplicationController
   end
   
   def first_free_doctor
-    gen_free_hours_for_doctor(Doctor.find(params[:doctor_id]))
+    gen_free_hours_for_doctor(Doctor.find(params[:doctor_id]), nil)
     @appointment = current_patient.appointments.build(assignment_id: @assignment_id,
                                                       hour: @hour, day: @day)
     @appointment.save
     respond_with(@appointment)
+  end
+  
+  def confirm_appointment
+    @appointment.confirmed = true
+    @appointment.save
+    redirect_to(:back)
   end
 
   def destroy
@@ -117,17 +126,19 @@ class AppointmentsController < ApplicationController
     
     def find_patients
       @appointments.each do |appointment|
-        @patients << Patient.find(appointment.patient_id)
+        @patients << appointment.patient
       end
     end
     
     def find_doctors
-      assignments = []
       @appointments.each do |appointment|
-        assignments << Assignment.find(appointment.assignment_id)
+        @doctors << appointment.assignment.doctor
       end
-      assignments.each do |assignment|
-        @doctors << Doctor.find(assignment.doctor_id)
+    end
+    
+    def find_clinics
+      @appointments.each do |appointment|
+        @clinics << appointment.assignment.clinic
       end
     end
 
@@ -153,10 +164,16 @@ class AppointmentsController < ApplicationController
       end
     end
     
-    def gen_free_hours_for_doctor(doctor)
+    def gen_free_hours_for_doctor(doctor, assignment_ids)
       schedules = []
-      doctor.assignments.each do |assignment|
-        schedules += assignment.schedules
+      if assignment_ids.nil?
+        doctor.assignments.each do |assignment|
+          schedules += assignment.schedules
+        end
+      else
+        doctor.assignments.where(id: assignment_ids).each do |assignment|
+          schedules += assignment.schedules
+        end
       end
       current_day = Date.today
       free_hours = []
@@ -179,7 +196,7 @@ class AppointmentsController < ApplicationController
       free_hours = []
       first_appointment = Struct.new(:hour, :day, :assignment_id)
       clinic.doctors.each do |doctor|
-        gen_free_hours_for_doctor(doctor)
+        gen_free_hours_for_doctor(doctor, clinic.assignments)
         free_hours << first_appointment.new(@hour, @day, @assignment_id)
       end
       free_hours.sort_by! { |tmp| [tmp.day, tmp.hour] }

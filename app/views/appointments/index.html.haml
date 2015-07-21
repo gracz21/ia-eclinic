@@ -14,10 +14,12 @@
           %tr
             - if !current_patient
               %th Patient
+            %th Clinic
             - if !current_doctor  
               %th Doctor
             %th Day
             %th Hour
+            %th
             %th
             %th
             %th
@@ -29,12 +31,19 @@
                 %td
                   = @patients[i].first_name
                   = @patients[i].last_name
+              %td= @clinics[i].name
               - if !current_doctor
                 %td
                   = @doctors[i].first_name
                   = @doctors[i].last_name
               %td= appointment.day
               %td= appointment.hour.strftime('%H:%M')
+              - if current_patient
+                - if !appointment.confirmed
+                  %td= link_to 'Confirm', appointment_confirm_path(appointment), :class => "btn btn-success", :method=>'post'
+                - else
+                  %td
+                    %button.btn.btn-info{ :disabled => true }= 'Confirmed'
               %td= link_to 'Show', appointment, :class => "btn btn-default"
               %td= link_to 'Edit', edit_appointment_path(appointment), :class => "btn btn-default"
               %td= link_to 'Destroy', appointment, :method => :delete, 
