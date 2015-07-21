@@ -1,7 +1,8 @@
-%h1 Editing appointment
-
-= render 'form'
-
-= link_to 'Show', @appointment
-\|
-= link_to 'Back', appointments_path
+.container
+  %h1 Editing appointment
+  
+  .jumbotron
+    = render 'form'
+    
+    = link_to 'Show', @appointment, :class => "btn btn-default"
+    = link_to 'Back', appointments_path, :class => "btn btn-default"

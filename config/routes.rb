@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   
   resources :clinics
   resources :doctors do
+    get 'schedules/get_assignment_id_s', as: :get_assignment_id_s
     resources :schedules
   end
   resources :patients

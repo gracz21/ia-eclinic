@@ -1,7 +1,8 @@
 class SchedulesController < ApplicationController
   include ApplicationHelper
   before_action :is_logged_in
-  before_action :set_doc
+  before_action :set_doc, only: [:index, :show, :new, :edit, 
+    :create, :update, :destroy]
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -17,6 +18,8 @@ class SchedulesController < ApplicationController
   end
 
   def show
+    @clinic_name = @schedule.assignment.clinic.name
+    gen_weekday_list
     respond_with(@schedule)
   end
 
@@ -29,14 +32,25 @@ class SchedulesController < ApplicationController
   def edit
     gen_weekday_list
   end
+  
+  def get_assignment_id_s
+    @assignment_id = Assignment.where(clinic_id: params[:clinic_id],
+      doctor_id: current_doctor.id).first.id
+    respond_to do |format|
+      format.js
+    end
+  end
 
   def create
-    @schedule = Schedule.new(schedule_params)
+    @assignment = Assignment.find(params[:schedule][:assignment_id])
+    @schedule = @assignment.schedules.build(schedule_params)
     if(@schedule.start_hour.strftime('%H%M') >= @schedule.end_hour.strftime('%H%M'))
       redirect_to :back, :notice => "Start hour can't be greater or equal to end hour" and return
     end
-    assignment = Assignment.where(doctor_id: current_doctor, clinic_id: params[:schedule][:assignment_id]).first
-    schedules = assignment.schedules
+    schedules = []
+    Assignment.where(doctor_id: current_doctor).each do |assignment|
+      schedules += assignment.schedules
+    end
     schedules.each do |tmp|
       if tmp.weekday == @schedule.weekday
         if !(@schedule.end_hour.strftime('%H%M') <= tmp.start_hour.strftime('%H%M') or
@@ -45,7 +59,6 @@ class SchedulesController < ApplicationController
         end
       end
     end
-    @assignment.schedules << @schedule
     @schedule.save
     redirect_to doctor_schedule_url(@doctor, @schedule.id)
   end
@@ -70,8 +83,15 @@ class SchedulesController < ApplicationController
     end
 
     def schedule_params
-      @assignment = Assignment.where(doctor_id: params[:doctor_id],
-        clinic_id: params[:schedule][:assignment_id]).first
-      params.require(:schedule).permit(@assignment, :weekday, :start_hour, :end_hour)
+      params.require(:schedule).permit(:weekday, :start_hour, :end_hour)
+    end
+    
+    def gen_weekday_list
+      weekday = Struct.new(:id, :name)
+      @weekday_list = [weekday.new(1, 'Monday'), 
+        weekday.new(2, 'Tuesday'), 
+        weekday.new(3, 'Wednesday'), 
+        weekday.new(4, 'Thursday'), 
+        weekday.new(5, 'Friday')]
     end
 end

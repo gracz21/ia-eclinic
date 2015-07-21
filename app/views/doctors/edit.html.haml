@@ -1,8 +1,8 @@
-%h1 Editing doctor
-
 .container
-  = render 'form'
-
-= link_to 'Show', @doctor
-\|
-= link_to 'Back', doctors_path
+  %h1 Editing doctor
+  
+  .jumbotron
+    = render 'form'
+  
+    = link_to 'Show', @doctor, :class => "btn btn-default"
+    = link_to 'Back', doctors_path, :class => "btn btn-default"

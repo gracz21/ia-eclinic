@@ -1,5 +1,7 @@
-%h1 New schedule
-
-= render 'form', form_url: doctor_schedules_path 
-
-= link_to 'Back', doctor_schedules_path
+.container
+  %h1 New schedule
+  
+  .jumbotron
+    = render 'form', form_url: doctor_schedules_path 
+  
+    = link_to 'Back', doctor_schedules_path, :class => "btn btn-default"

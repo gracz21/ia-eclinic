@@ -25,7 +25,7 @@ $ ->
         doctor_id: $("#assignment_doctor_id option:selected").val()
       }
       error: (jqXHR, textStatus, errorThrown) ->
-        console.log("AJAX clinic error: #{textStatus}")
+        console.log("AJAX assignment_id error: #{textStatus}")
       success: (data, textStatus, jqXHR) ->
         console.log("Dynamic get assignment_id OK!")
 

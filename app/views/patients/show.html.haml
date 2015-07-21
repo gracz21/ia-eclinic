@@ -1,18 +1,21 @@
-%p#notice= notice
-
-%p
-  %b First name:
-  = @patient.first_name
-%p
-  %b Last name:
-  = @patient.last_name
-%p
-  %b Pesel:
-  = @patient.pesel
-%p
-  %b Address:
-  = @patient.address
-
-= link_to 'Edit', edit_patient_path(@patient)
-\|
-= link_to 'Back', patients_path
+.container
+  %p#notice= notice
+  .jumbotron
+    %h2
+      = @patient.first_name
+      = @patient.last_name
+    %p
+      %b First name:
+      = @patient.first_name
+    %p
+      %b Last name:
+      = @patient.last_name
+    %p
+      %b Pesel:
+      = @patient.pesel
+    %p
+      %b Address:
+      = @patient.address
+    
+  = link_to 'Edit', edit_patient_path(@patient), :class => "btn btn-default"
+  = link_to 'Back', patients_path, :class => "btn btn-default"

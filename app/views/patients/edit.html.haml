@@ -1,7 +1,8 @@
-%h1 Editing patient
+.container
+  %h1 Editing patient
 
-= render 'form'
-
-= link_to 'Show', @patient
-\|
-= link_to 'Back', patients_path
+  .jumbotron
+    = render 'form'
+    
+    = link_to 'Show', @patient, :class => "btn btn-default"
+    = link_to 'Back', patients_path, :class => "btn btn-default"

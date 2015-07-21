@@ -14,7 +14,7 @@
         %h2
           = @clinic.name
         %p
-          %b Assigned doctors:
+          Assigned doctors:
         
         - if @doctors.size > 0  
           %table.table.table-striped
@@ -23,7 +23,6 @@
                 %th First name
                 %th Last name
                 %th PWZ No.
-                %th
                 
             %tbody
               - @doctors.each do |doctor|
@@ -31,6 +30,5 @@
                   %td= doctor.first_name
                   %td= doctor.last_name
                   %td= doctor.pwz
-                  %td= link_to 'Cos', '#', :class => "btn btn-default"
         - else
           No doctors assigned yet

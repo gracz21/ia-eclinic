@@ -1,17 +1,18 @@
-%p#notice= notice
-
-%p
-  %b Assignment:
-  = @schedule.assignment_id
-%p
-  %b Weekday:
-  = @schedule.weekday
-%p
-  %b Start hour:
-  = @schedule.start_hour
-%p
-  %b End hour:
-  = @schedule.end_hour
-
-= link_to 'Edit', edit_doctor_schedule_path(@doctor, @schedule), :class => "btn btn-default"
-= link_to 'Back', doctor_schedules_path, :class => "btn btn-default"
+.container
+  %p#notice= notice
+  .jumbotron
+    %p
+      %b Clinic:
+      = @clinic_name
+    %p
+      %b Weekday:
+      = @weekday_list[@schedule.weekday - 1].name
+    %p
+      %b Time:
+      From
+      = @schedule.start_hour.strftime('%H:%M')
+      to
+      = @schedule.end_hour.strftime('%H:%M')
+    
+    = link_to 'Edit', edit_doctor_schedule_path(@doctor, @schedule), :class => "btn btn-default"
+    = link_to 'Back', doctor_schedules_path, :class => "btn btn-default"

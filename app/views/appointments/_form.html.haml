@@ -1,10 +1,10 @@
 = fields_for :assignment do |f|
-  .field
+  .form-group
     = f.label :clinic
-    = f.collection_select :clinic_id, @clinics, :id, :name, :prompt => "Select clinic first"
-  .field
+    = f.collection_select :clinic_id, @clinics, :id, :name, { :prompt => "Select clinic first" }, :class => "form-control" 
+  .form-group
     = f.label :doctor
-    = f.collection_select :doctor_id, @doctors, :id, :last_name
+    = f.collection_select :doctor_id, @doctors, :id, :last_name, { :prompt => "Then select doctor" }, :class => "form-control"
 
 = form_for @appointment do |f|
   - if @appointment.errors.any?
@@ -15,11 +15,11 @@
           %li= msg
   
   = f.hidden_field :assignment_id
-  .field
+  .form-group
     = f.label :day
-    = f.text_field :day, :placeholder => "Select date"
-  .field
+    = f.text_field :day, :placeholder => "Next select date", :class => "form-control"
+  .form-group
     = f.label :hour
-    = f.collection_select :hour, @hours, :time, :time, :prompt => "Select hour"
+    = f.collection_select :hour, @hours, :time, :time, { :prompt => "Finaly select hour" }, :class => "form-control"
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "btn btn-primary"

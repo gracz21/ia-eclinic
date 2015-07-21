@@ -1,3 +1,8 @@
+= fields_for :assignment_id do |f|
+  .form-group
+    = f.label :clinic
+    = f.collection_select :clinic_id, @doctor.clinics, :id, :name, { :prompt => "Select clinic" }, :class => "form-control"
+
 = form_for @schedule, url: form_url  do |f|
   - if @schedule.errors.any?
     #error_explanation
@@ -5,18 +10,16 @@
       %ul
         - @schedule.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :clinic
-    = f.collection_select :assignment_id, @doctor.clinics, :id, :name
-  .field
+          
+  = f.hidden_field :assignment_id
+  .form-group
     = f.label :weekday
-    = f.collection_select :weekday, @weekday_list, :id, :name
-  .field
+    = f.collection_select :weekday, @weekday_list, :id, :name, {}, :class => "form-control"
+  .form-group
     = f.label :start_hour
     = f.time_select :start_hour, {minute_step: 30}
-  .field
+  .form-group
     = f.label :end_hour
     = f.time_select :end_hour, {minute_step: 30}
   .actions
-    = f.submit 'Save', :class => "btn btn-default"
+    = f.submit 'Save', :class => "btn btn-primary"

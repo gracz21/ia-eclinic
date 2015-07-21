@@ -6,17 +6,17 @@
         - @patient.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
+  .form-group
     = f.label :first_name
-    = f.text_field :first_name
-  .field
+    = f.text_field :first_name, :class => "form-control" 
+  .form-group
     = f.label :last_name
-    = f.text_field :last_name
-  .field
+    = f.text_field :last_name, :class => "form-control" 
+  .form-group
     = f.label :pesel
-    = f.text_field :pesel
-  .field
+    = f.text_field :pesel, :class => "form-control" 
+  .form-group
     = f.label :address
-    = f.text_field :address
+    = f.text_field :address, :class => "form-control" 
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "btn btn-primary"

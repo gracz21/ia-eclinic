@@ -1,5 +1,7 @@
-%h1 New doctor
-
-= render 'form'
-
-= link_to 'Back', doctors_path
+.container
+  %h1 New doctor
+  
+  .jumbotron
+    = render 'form'
+    
+    = link_to 'Back', doctors_path, :class => "btn btn-default"

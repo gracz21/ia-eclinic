@@ -5,28 +5,22 @@
       %ul
         - @doctor.errors.full_messages.each do |msg|
           %li= msg
-  .field
+  .form-group
     = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .field
+    = f.email_field :email, autofocus: true, :class => "form-control"
+  .form-group
     = f.label :password
-    - if @minimum_password_length
-      %em
-        (8 characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "off"
-  .field
+    %em
+      (6 characters minimum)
+    = f.password_field :password, autocomplete: "off", :class => "form-control"
+  .form-group
     = f.label :first_name
-    %br/
-    = f.text_field :first_name
-  .field
+    = f.text_field :first_name, :class => "form-control"
+  .form-group
     = f.label :last_name
-    %br/
-    = f.text_field :last_name
-  .field
+    = f.text_field :last_name, :class => "form-control"
+  .form-group
     = f.label :pwz
-    %br/
-    = f.number_field :pwz
+    = f.number_field :pwz, :class => "form-control"
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "btn btn-primary"

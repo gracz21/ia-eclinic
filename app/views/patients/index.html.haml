@@ -2,11 +2,12 @@
   %h1 Patients
 
   .row
-    .col-md-2
-      %h4 Menu
-      %ul.nav.nav-pills.nav-stacked
-        %li{ :role => "presentation" }= link_to 'Show all Users', patients_path
-        %li{ :role => "presentation" }= link_to 'Show users awaiting approval', patients_path(:approved => 'false')
+    - if current_admin
+      .col-md-2
+        %h4 Menu
+        %ul.nav.nav-pills.nav-stacked
+          %li{ :role => "presentation" }= link_to 'Show all Users', patients_path
+          %li{ :role => "presentation" }= link_to 'Show users awaiting approval', patients_path(:approved => 'false')
     
     .col-md-10
       %table.table.table-striped
@@ -17,7 +18,8 @@
             %th Last name
             %th Pesel
             %th Address
-            %th
+            - if current_admin
+              %th
             %th
             %th
             %th
@@ -30,10 +32,11 @@
               %td= patient.last_name
               %td= patient.pesel
               %td= patient.address
-              - if !patient.approved
-                %td= link_to 'Activate', activate_patient_path(patient, :activate => 'true'), :class => "btn btn-success", :method => :post
-              - else
-                %td= link_to 'Deactivate', activate_patient_path(patient, :activate => 'false'), :class => "btn btn-danger", :method => :post
+              - if current_admin
+                - if !patient.approved
+                  %td= link_to 'Activate', activate_patient_path(patient, :activate => 'true'), :class => "btn btn-success", :method => :post
+                - else
+                  %td= link_to 'Deactivate', activate_patient_path(patient, :activate => 'false'), :class => "btn btn-danger", :method => :post
               %td= link_to 'Show', patient, :class => "btn btn-default"
               %td= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default"
               %td= link_to 'Destroy', patient, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
