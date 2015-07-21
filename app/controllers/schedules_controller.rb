@@ -10,8 +10,7 @@ class SchedulesController < ApplicationController
     @schedules = Schedule.where(assignment_id: @doctor.assignment_ids).order(:weekday, :start_hour)
     @clinic_names = []
     @schedules.each do |schedule|
-      assignment = Assignment.find(schedule.assignment_id)
-      @clinic_names << Clinic.find(assignment.clinic_id).name
+      @clinic_names << schedule.assignment.clinic.name
     end
     gen_weekday_list
     respond_with(@schedules)
