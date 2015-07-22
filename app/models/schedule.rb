@@ -18,6 +18,9 @@ class Schedule < ActiveRecord::Base
       Assignment.where(doctor_id: assignment.doctor_id).each do |assignment|
         schedules += assignment.schedules
       end
+      if !id.nil?
+        schedules -= Schedule.where(id)
+      end
       schedules.each do |tmp|
         if tmp.weekday == weekday
           if !(end_hour.strftime('%H%M') <= tmp.start_hour.strftime('%H%M') or

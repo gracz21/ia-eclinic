@@ -1,2 +1,6 @@
-- hours.each do |hour|
-  %option{:value => hour.time.strftime("%Y-%m-%d %H:%M")}= hour.time.strftime('%H:%M')
+- if hours.size == 0
+  %option= 'No free appointments'
+- else
+  %option= 'Finaly select hour'
+  - hours.each do |hour|
+    %option{:value => hour.time.strftime("%Y-%m-%d %H:%M")}= hour.time.strftime('%H:%M')

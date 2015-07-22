@@ -22,6 +22,12 @@ class Seed
                    first_name: 'Gregory',
                    last_name: 'House',
                    pwz: '5425740')
+    Doctor.create!(email: 'doc2@cos.com',
+                   password: 'doctor',
+                   password_confirmation: 'doctor',
+                   first_name: 'Doktor',
+                   last_name: 'Drugi',
+                   pwz: '1234567')
   end
   
   def self.patient
