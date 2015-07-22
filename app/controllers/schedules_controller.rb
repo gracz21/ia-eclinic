@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
   include ApplicationHelper
+  include SchedulesHelper
   before_action :is_logged_in
   before_action :set_doc, only: [:index, :show, :new, :edit, 
     :create, :update, :destroy]
@@ -44,28 +45,21 @@ class SchedulesController < ApplicationController
   def create
     @assignment = Assignment.find(params[:schedule][:assignment_id])
     @schedule = @assignment.schedules.build(schedule_params)
-    if(@schedule.start_hour.strftime('%H%M') >= @schedule.end_hour.strftime('%H%M'))
-      redirect_to :back, :notice => "Start hour can't be greater or equal to end hour" and return
+    if @schedule.save
+      redirect_to doctor_schedule_url(@doctor, @schedule.id)
+    else
+      gen_weekday_list
+      render :new
     end
-    schedules = []
-    Assignment.where(doctor_id: current_doctor).each do |assignment|
-      schedules += assignment.schedules
-    end
-    schedules.each do |tmp|
-      if tmp.weekday == @schedule.weekday
-        if !(@schedule.end_hour.strftime('%H%M') <= tmp.start_hour.strftime('%H%M') or
-          @schedule.start_hour.strftime('%H%M') >= tmp.end_hour.strftime('%H%M'))
-          redirect_to :back, :notice => "Problem with the start hour or end hour" and return
-        end
-      end
-    end
-    @schedule.save
-    redirect_to doctor_schedule_url(@doctor, @schedule.id)
   end
 
   def update
-    @schedule.update(schedule_params)
-    respond_with(@schedule)
+    if @schedule.update(schedule_params)
+      redirect_to doctor_schedule_url(@doctor, @schedule.id)
+    else
+      gen_weekday_list
+      render :edit
+    end
   end
 
   def destroy
@@ -84,14 +78,5 @@ class SchedulesController < ApplicationController
 
     def schedule_params
       params.require(:schedule).permit(:weekday, :start_hour, :end_hour)
-    end
-    
-    def gen_weekday_list
-      weekday = Struct.new(:id, :name)
-      @weekday_list = [weekday.new(1, 'Monday'), 
-        weekday.new(2, 'Tuesday'), 
-        weekday.new(3, 'Wednesday'), 
-        weekday.new(4, 'Thursday'), 
-        weekday.new(5, 'Friday')]
     end
 end

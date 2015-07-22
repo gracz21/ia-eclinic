@@ -1,7 +1,9 @@
-= form_tag session_path(:admin), :class => "input-group" do
+= form_tag session_path(:admin) do
   = text_field_tag 'admin[email]', nil, :class => "form-control", :placeholder => "Email"
   = password_field_tag 'admin[password]', nil, :class => "form-control", :placeholder => "Password"
   = check_box_tag 'admin[remember_me]'
   = label_tag 'admin[remember_me]', 'Remember me'
-  %button.btn.btn-lg.btn-primary.btn-block Sign in
+  %br
+  %button.btn.btn-lg.btn-primary Sign in
+  %br
   = link_to "Forgot your password?", new_password_path(:admin)

@@ -34,10 +34,11 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new
-    assignments = Assignment.all
     @clinics = []
-    assignments.each do |assignment|
-      @clinics << assignment.clinic
+    Clinic.all.each do |clinic|
+      if clinic.assignments.size > 0
+        @clinics << clinic
+      end
     end
     @doctors = []
     @hours = []

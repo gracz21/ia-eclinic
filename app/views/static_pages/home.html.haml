@@ -3,8 +3,8 @@
     %h1.center WELCOME
   - else
     %h1 Sign in
-    .jumbotron
-      %ul.nav.nav-tabs
+    .jumbotron.text-center
+      %ul.nav.nav-tabs.nav-justified
         %li.active= link_to "Patient", '#patient_login', "data-toggle" => "tab"
         %li= link_to "Doctor", '#doctor_login', "data-toggle" => "tab"
         %li= link_to "Admin", '#admin_login', "data-toggle" => "tab"
@@ -16,5 +16,6 @@
           = render 'doctor_home_sign_in'
         .tab-pane.fade{ :id => "admin_login" }
           = render 'admin_home_sign_in'
-    %h2 Are you new patient?
-    =link_to "Sign up", new_patient_registration_path, :class => "btn btn-lg btn-primary btn-block"
+    %h2.text-center Are you new patient?
+    .center-block.text-center
+      =link_to "Sign up", new_patient_registration_path, :class => "btn btn-lg btn-primary text-center"
