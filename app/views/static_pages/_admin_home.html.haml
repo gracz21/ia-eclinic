@@ -1,0 +1,88 @@
+%h1 Weclome admin!
+
+%p
+  Today is
+  = Date.today
+  
+%h3 10 last registered patients
+- if @last_patients.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th E-mail
+        %th First name
+        %th Last name
+        %th Pesel
+        %th Address
+        %th
+    %tbody
+      - @last_patients.each do |patient|
+        %tr
+          %td= patient.email
+          %td= patient.first_name
+          %td= patient.last_name
+          %td= patient.pesel
+          %td= patient.address
+          - if !patient.approved
+            %td= link_to 'Activate', activate_patient_path(patient, :activate => 'true'), :class => "btn btn-success", :method => :post
+          - else
+            %td= link_to 'Deactivate', activate_patient_path(patient, :activate => 'false'), :class => "btn btn-danger", :method => :post
+- else
+  %p No registered patients
+
+%h3 10 last registered doctors
+- if @last_doctors.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th E-mail
+        %th First name
+        %th Last name
+        %th PWZ No.
+    %tbody
+      - @last_doctors.each do |doctor|
+        %tr
+          %td= doctor.email
+          %td= doctor.first_name
+          %td= doctor.last_name
+          %td= doctor.pwz
+- else
+  %p No registered doctors
+
+%h3 10 last added clinics
+- if @last_clinics.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Name
+    %tbody
+      - @last_clinics.each do |clinic|
+        %tr
+          %td= clinic.name
+- else
+  %p No clinics in database
+
+%h3 10 last added appointments
+- if @appointments.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Patient
+        %th Clinic
+        %th Doctor
+        %th Day
+        %th Hour
+    %tbody
+      - @appointments.each_with_index do |appointment, i|
+        %tr
+          %td
+            = @patients[i].first_name
+            = @patients[i].last_name
+          %td= @clinics[i].name
+          %td
+            = @doctors[i].first_name
+            = @doctors[i].last_name
+          %td= appointment.day
+          %td= appointment.hour.strftime('%H:%M')
+- else
+  %p No appointments in database

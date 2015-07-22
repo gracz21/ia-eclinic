@@ -1,0 +1,48 @@
+%h1
+  Welcome MD
+  = current_doctor.last_name
+  !
+%p
+  Today is
+  = Date.today
+
+%h3 Your next 10 appointments
+- if @appointments.size > 0  
+  
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Clinic
+        %th Patient
+        %th Day
+        %th Hour
+        
+    %tbody
+      - @appointments.each_with_index do |appointment, i|
+        %tr
+          %td= @clinics[i].name
+          %td
+            = @patients[i].first_name
+            = @patients[i].last_name
+          %td= appointment.day
+          %td= appointment.hour.strftime('%H:%M')
+- else
+  %p You have no future appointments
+
+%h3 Your today's schedule
+- if @appointments.size > 0
+  
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Clinic
+        %th Start hour
+        %th End hour
+    %tbody
+      - @schedules.each_with_index do |schedule, i|
+        %tr
+          %td= @clinics[i].name
+          %td= schedule.start_hour.strftime('%H:%M')
+          %td= schedule.end_hour.strftime('%H:%M')
+- else
+  %p You have no schedule registries for today

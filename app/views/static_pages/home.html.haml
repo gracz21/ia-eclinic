@@ -1,6 +1,11 @@
 .container
   - if patient_signed_in? or doctor_signed_in? or admin_signed_in?
-    %h1.center WELCOME
+    - if current_patient
+      = render 'patient_home'
+    - if current_doctor
+      = render 'doctor_home'
+    - if current_admin
+      = render 'admin_home'
   - else
     %h1 Sign in
     .jumbotron.text-center

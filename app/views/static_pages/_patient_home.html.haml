@@ -1,0 +1,36 @@
+%h1
+  Welcome
+  = current_patient.first_name
+  !
+%p
+  Today is
+  = Date.today
+
+- if @appointments.size > 0  
+  %h3 Your next 10 appointments
+  
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Clinic
+        %th Doctor
+        %th Day
+        %th Hour
+        %th
+        
+    %tbody
+      - @appointments.each_with_index do |appointment, i|
+        %tr
+          %td= @clinics[i].name
+          %td
+            = @doctors[i].first_name
+            = @doctors[i].last_name
+          %td= appointment.day
+          %td= appointment.hour.strftime('%H:%M')
+          - if !appointment.confirmed
+            %td= link_to 'Confirm', appointment_confirm_path(appointment), :class => "btn btn-success", :method=>'post'
+          - else
+            %td
+              %button.btn.btn-info{ :disabled => true }= 'Confirmed'
+- else
+  %p You have no future appointments
