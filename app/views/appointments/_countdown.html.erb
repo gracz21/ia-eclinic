@@ -1,0 +1,7 @@
+<script type="text/javascript">
+  var i = <%= raw i.to_json %>
+  var date = <%= raw date.to_json %>
+  $('#appointment_' + i).countdown(date, function(event) {
+    $(this).html(event.strftime('Confirm %M:%S'));
+  });
+</script>

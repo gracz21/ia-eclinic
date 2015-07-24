@@ -34,6 +34,7 @@ gem 'ffaker'
 gem 'faker'
 gem 'jquery-ui-rails'
 gem 'byebug'
+gem 'jquery-final_countdown-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
