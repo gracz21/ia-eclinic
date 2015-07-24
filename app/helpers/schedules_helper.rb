@@ -7,4 +7,20 @@ module SchedulesHelper
       weekday.new(4, 'Thursday'), 
       weekday.new(5, 'Friday')]
   end
+  
+  def appointments_update(delete)
+    appointments = @schedule.assignment.appointments.where('day > ?', Date.today)
+    appointments = appointments.select{ |appointment| appointment.day.wday == @schedule.weekday }
+    if delete == true
+      appointments.each do |appointment|
+        appointment.destroy
+      end
+    else
+      appointments.each do |appointment|
+        if appointment.hour < @schedule.start_hour or appointment.hour >= @schedule.end_hour
+          appointment.destroy
+        end
+      end
+    end
+  end
 end

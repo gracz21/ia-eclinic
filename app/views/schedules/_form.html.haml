@@ -1,10 +1,11 @@
-= fields_for :assignment_id do |f|
+= fields_for @assignment_id do |f|
   .form-group
     = f.label :clinic
     - if form_url == doctor_schedules_path
-      = f.collection_select :clinic_id, @doctor.clinics, :id, :name, { :prompt => "Select clinic" }, :class => "form-control"
+      = f.collection_select :clinic_id, @doctor.clinics, :id, :name, { :prompt => "Select clinic" }, :class => "form-control", 
+        :id => 'schedule_clinic_id'
     - else
-      = f.collection_select :clinic_id, @doctor.clinics, :id, :name, {}, :class => "form-control"
+      = f.collection_select :clinic_id, @doctor.clinics, :id, :name, {}, :class => "form-control", :id => 'schedule_clinic_id'
 
 = form_for @schedule, url: form_url  do |f|
   - if @schedule.errors.any?

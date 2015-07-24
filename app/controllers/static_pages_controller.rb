@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   def home
     if current_patient
-      @appointments = current_patient.appointments.where('day > ?', Date.today).limit(10)
+      @appointments = current_patient.appointments.where('day >= ?', Date.today).limit(10)
       find_doctors
       find_clinics
     end
@@ -10,7 +10,7 @@ class StaticPagesController < ApplicationController
       @appointments = []
       @schedules = []
       current_doctor.assignments.each do |assignment|
-        assignment.appointments.where('day > ?', Date.today).each do |appointment|
+        assignment.appointments.where('day >= ?', Date.today).each do |appointment|
           if @appointments.size < 10
             @appointments << appointment
           end 

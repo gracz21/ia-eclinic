@@ -3,13 +3,12 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(document).on 'change', '#assignment_id_clinic_id', (evt) ->
-    $.ajax 'get_assignment_id_s',
+  $(document).on 'change', '#schedule_clinic_id', (evt) ->
+    $.ajax '/doctors/:id/schedules/get_assignment_id_s',
       type: 'GET'
       dataType: 'script'
       data: {
-        doctor_id: 0
-        clinic_id: $("#assignment_id_clinic_id option:selected").val()
+        clinic_id: $("#schedule_clinic_id option:selected").val()
       }
       error: (jqXHR, textStatus, errorThrown) ->
         console.log("AJAX assignment_id error: #{textStatus}")

@@ -25,12 +25,14 @@ class SchedulesController < ApplicationController
   end
 
   def new
+    @assignment_id = Assignment.new
     @schedule = Schedule.new
     gen_weekday_list
     respond_with(@schedule)
   end
 
   def edit
+    @assignment_id = @schedule.assignment
     gen_weekday_list
   end
   
@@ -55,14 +57,17 @@ class SchedulesController < ApplicationController
 
   def update
     if @schedule.update(schedule_params)
+      appointments_update(false)
       redirect_to doctor_schedule_url(@doctor, @schedule.id)
     else
+      @assignment_id = Assignment.find(params[:schedule][:assignment_id])
       gen_weekday_list
       render :edit
     end
   end
 
   def destroy
+    appointments_update(true)
     @schedule.destroy
     redirect_to doctor_schedules_url(@doctor)
   end
@@ -77,6 +82,6 @@ class SchedulesController < ApplicationController
     end
 
     def schedule_params
-      params.require(:schedule).permit(:weekday, :start_hour, :end_hour)
+      params.require(:schedule).permit(:assignment_id, :weekday, :start_hour, :end_hour)
     end
 end

@@ -3,7 +3,7 @@ class Schedule < ActiveRecord::Base
   
   validates :weekday, :inclusion => {:in => 1..5}, presence: true
   validates :assignment_id, :start_hour, :end_hour, presence: true
-  validate :check_start_end_correctness, :check_cohesion
+  validate :check_start_end_correctness, :check_cohesion, on: [:create, :update]
   
   private
   
@@ -19,7 +19,7 @@ class Schedule < ActiveRecord::Base
         schedules += assignment.schedules
       end
       if !id.nil?
-        schedules -= Schedule.where(id)
+        schedules -= Schedule.where(id: id)
       end
       schedules.each do |tmp|
         if tmp.weekday == weekday
