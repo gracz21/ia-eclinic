@@ -16,6 +16,7 @@ class DoctorsController < ApplicationController
   end
 
   def show
+    @clinics = Clinic.all - @doctor.clinics
     @schedules = Schedule.where(assignment_id: @doctor.assignment_ids).order(:weekday, :start_hour)
     @clinic_names = []
     @schedules.each do |schedule|
