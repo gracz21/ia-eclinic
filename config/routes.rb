@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :appointments
   
   resources :clinics
+  
+  get 'doctors/doctor_get_free_appointments', as: :doctor_get_free_appointments
   resources :doctors do
     get 'schedules/get_assignment_id_s', as: :get_assignment_id_s
     resources :schedules

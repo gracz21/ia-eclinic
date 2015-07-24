@@ -1,9 +1,11 @@
 class DoctorsController < ApplicationController
   include ApplicationHelper
+  include SchedulesHelper
+  include AppointmentsHelper
   before_action :set_doctor, only: [:show, :edit, :update, :destroy,
     :assign_clinic, :unassign_clinic]
   before_action :is_logged_in
-  before_action :is_admin, only: [:show, :new, :edit, :destroy,
+  before_action :is_admin, only: [:new, :edit, :destroy,
     :create, :update, :assign_clinic, :unassign_clinic]
 
   respond_to :html
@@ -14,7 +16,12 @@ class DoctorsController < ApplicationController
   end
 
   def show
-    @clinics = Clinic.where.not(id: @doctor.clinic_ids)
+    @schedules = Schedule.where(assignment_id: @doctor.assignment_ids).order(:weekday, :start_hour)
+    @clinic_names = []
+    @schedules.each do |schedule|
+      @clinic_names << schedule.assignment.clinic.name
+    end
+    gen_weekday_list
     respond_with(@doctor)
   end
 
@@ -53,6 +60,28 @@ class DoctorsController < ApplicationController
     @doctor.clinics.destroy(params[:doctor][:clinics])
     @doctor.save
     respond_with(@doctor)
+  end
+  
+  def doctor_get_free_appointments
+    @hours = []
+    if params[:day] != ''
+      day = params[:day].to_date
+      doctor = Doctor.find(params[:doctor_id])
+      schedules = []
+      appointments = []
+      doctor.assignments.each do |assignment|
+        schedules += assignment.schedules.where(weekday: day.wday)
+        appointments += assignment.appointments.where(day: day)
+      end
+      @clinic_names = []
+      gen_free_hours(day, schedules, appointments)
+      @hours.each do |hour|
+        @clinic_names << Assignment.find(hour.assignment_id).clinic.name
+      end
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

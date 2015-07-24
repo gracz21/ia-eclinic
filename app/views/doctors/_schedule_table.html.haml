@@ -1,0 +1,17 @@
+- if @schedules.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Weekday
+        %th Clinic
+        %th Start hour
+        %th End hour
+    %tbody
+      - @schedules.each_with_index do |schedule, i|
+        %tr
+          %td= @weekday_list[schedule.weekday-1].name
+          %td= @clinic_names[i]
+          %td= schedule.start_hour.strftime('%H:%M')
+          %td= schedule.end_hour.strftime('%H:%M')
+- else
+  No clinics assigned yet

@@ -6,39 +6,42 @@
       %h4 Actions
       %ul.nav.nav-pills.nav-stacked
         %li.active{ :role => "presentation" }= link_to 'Back', doctors_path
-        %li{ :role => "presentation" }= link_to 'Edit', edit_doctor_path(@doctor)
-        - if @clinics.size > 0
-          %li
-            %p
-              Add clinic
-            = form_for @doctor, url: doctor_assign_clinic_path do |f|
-              .field
-                = f.collection_select :clinics, @clinics, :id, :name
-              = f.submit 'Assign', :class => "btn btn-success"
-          %br
-        - if @doctor.clinics.size > 0
-          %li
-            %p
-              Remove clinic
-            = form_for @doctor, url: doctor_unassign_clinic_path do |f|
-              .field
-                = f.collection_select :clinics, @doctor.clinics, :id, :name
-              = f.submit 'Unassign', :class => "btn btn-danger"
+        - if current_admin
+          %li{ :role => "presentation" }= link_to 'Edit', edit_doctor_path(@doctor)
+          - if @clinics.size > 0
+            %li
+              %p
+                Add clinic
+              = form_for @doctor, url: doctor_assign_clinic_path do |f|
+                .field
+                  = f.collection_select :clinics, @clinics, :id, :name
+                = f.submit 'Assign', :class => "btn btn-success"
+            %br
+          - if @doctor.clinics.size > 0
+            %li
+              %p
+                Remove clinic
+              = form_for @doctor, url: doctor_unassign_clinic_path do |f|
+                .field
+                  = f.collection_select :clinics, @doctor.clinics, :id, :name
+                = f.submit 'Unassign', :class => "btn btn-danger"
         
     .col-md-10
       .jumbotron
         %h2
           = @doctor.first_name
           = @doctor.last_name
-        %p
-          %b PWZ No.:
-          = @doctor.pwz
-        %p
-          %b Assigned clinics:
-          %br
-          - if @doctor.clinics.size > 0
-            - @doctor.clinics.each do |clinic|
-              %p
-                = clinic.name
-          - else
-            No clinics assigned yet
+          %small
+            %b PWZ No.:
+            = @doctor.pwz
+        %h3
+          Schedule
+        = render 'schedule_table'
+          
+        %h3
+          Free appointments
+        .form-group
+          = hidden_field :doctor, :id, { value: @doctor.id }
+          = text_field :get, :day, { :placeholder => "Select date (yyyy-mm-dd)", :class => "form-control", readonly: true }
+          
+        #appointments_table
