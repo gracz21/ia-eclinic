@@ -39,10 +39,10 @@
               %td= appointment.day
               %td= appointment.hour.strftime('%H:%M')
               - if current_patient
-                /%div.confirmation{ data: { date: @confirmation_dates[i] } }
                 - if !appointment.confirmed
                   %td= link_to 'Confirm', appointment_confirm_path(appointment), :class => "btn btn-success clock", :method=>'post', 
                     :id => 'appointment_' + i.to_s
+                  = render 'countdown', i: i, date: @confirmation_dates[i]
                 - else
                   %td
                     %button.btn.btn-info{ :disabled => true }= 'Confirmed'
@@ -50,4 +50,3 @@
               %td= link_to 'Edit', edit_appointment_path(appointment), :class => "btn btn-default"
               %td= link_to 'Destroy', appointment, :method => :delete, 
                 :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
-              = render 'countdown', i: i, date: @confirmation_dates[i]
