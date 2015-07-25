@@ -15,7 +15,7 @@ class AppointmentsController < ApplicationController
       @appointments = current_patient.appointments
       @confirmation_dates = []
       @appointments.each do |appointment|
-        @confirmation_dates << (appointment.created_at + 10.minutes).strftime('%Y/%m/%d %H:%M')
+        @confirmation_dates << (appointment.created_at + 10.minutes).strftime('%Y/%m/%d %H:%M:%S')
       end
       find_doctors
     end
