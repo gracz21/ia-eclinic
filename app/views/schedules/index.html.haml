@@ -20,9 +20,11 @@
             %th Clinic
             %th Start hour
             %th End hour
-            %th
-            %th
-            %th
+            - if current_doctor
+              %th
+              %th
+            - if current_doctor or current_admin
+              %th
   
         %tbody
           - @schedules.each_with_index do |schedule, i|
@@ -34,6 +36,7 @@
               - if current_doctor
                 %td= link_to 'Show', doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
                 %td= link_to 'Edit', edit_doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
+              - if current_doctor or current_admin
                 %td= link_to 'Destroy', doctor_schedule_path(@doctor, schedule),
                   :method => :delete, :data => { :confirm => 'Are you sure?' },
                   :class => "btn btn-default"

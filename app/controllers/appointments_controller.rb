@@ -34,6 +34,9 @@ class AppointmentsController < ApplicationController
   end
 
   def show
+    @patient = @appointment.patient
+    @clinic = @appointment.assignment.clinic
+    @doctor = @appointment.assignment.doctor
     respond_with(@appointment)
   end
 
@@ -55,9 +58,32 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = current_patient.appointments.build(appointment_params)
-    @appointment.save
-    DeleteAppointmentWorker.perform_in(10.minutes, @appointment.id)
-    respond_with(@appointment)
+    begin
+      if @appointment.save
+        DeleteAppointmentWorker.perform_at(10.minutes.from_now, @appointment.id)
+        redirect_to @appointment
+      else
+        @clinics = []
+        Clinic.all.each do |clinic|
+          if clinic.assignments.size > 0
+            @clinics << clinic
+          end
+        end
+        @doctors = []
+        @hours = []
+        render :new
+      end
+      rescue Exception
+        @clinics = []
+        Clinic.all.each do |clinic|
+          if clinic.assignments.size > 0
+            @clinics << clinic
+          end
+        end
+        @doctors = []
+        @hours = []
+        render :new, notice: "An error has occured while saving appointment"
+    end
   end
 
   def update
@@ -104,6 +130,7 @@ class AppointmentsController < ApplicationController
                                                       hour: @appointment_data.hour,
                                                       day: @appointment_data.day)
     @appointment.save
+    DeleteAppointmentWorker.perform_at(10.minutes.from_now, @appointment.id)
     respond_with(@appointment)
   end
   
@@ -112,6 +139,7 @@ class AppointmentsController < ApplicationController
     @appointment = current_patient.appointments.build(assignment_id: @assignment_id,
                                                       hour: @hour, day: @day)
     @appointment.save
+    DeleteAppointmentWorker.perform_at(10.minutes.from_now, @appointment.id)
     respond_with(@appointment)
   end
   

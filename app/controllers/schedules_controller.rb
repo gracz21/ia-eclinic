@@ -4,6 +4,7 @@ class SchedulesController < ApplicationController
   before_action :is_logged_in
   before_action :set_doc, only: [:index, :show, :new, :edit, 
     :create, :update, :destroy]
+  before_action :is_authorized
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
 
   respond_to :html

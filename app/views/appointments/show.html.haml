@@ -1,18 +1,23 @@
-%p#notice= notice
-
-%p
-  %b Patient:
-  = @appointment.patient_id
-%p
-  %b Assignment:
-  = @appointment.assignment_id
-%p
-  %b Day:
-  = @appointment.day
-%p
-  %b Hour:
-  = @appointment.hour
-
-= link_to 'Edit', edit_appointment_path(@appointment)
-\|
-= link_to 'Back', appointments_path
+.container
+  %p#notice= notice
+  .jumbotron
+    %p
+      %b Patient:
+      = @patient.first_name
+      = @patient.last_name
+    %p
+      %b Clinic:
+      = @clinic.name
+    %p
+      %b Doctor
+      = @doctor.first_name
+      = @doctor.last_name
+    %p
+      %b Day:
+      = @appointment.day
+    %p
+      %b Hour:
+      = @appointment.hour.strftime('%H:%M')
+    
+    /= link_to 'Edit', edit_appointment_path(@appointment)
+    = link_to 'Back', appointments_path, :class => "btn btn-default"

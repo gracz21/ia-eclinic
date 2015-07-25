@@ -8,6 +8,15 @@ module SchedulesHelper
       weekday.new(5, 'Friday')]
   end
   
+  def is_authorized
+    if current_admin
+      return
+    end
+    if current_doctor.id.to_s != params[:doctor_id]
+      redirect_to root_url, notice: "You are not allowed to do that!"
+    end
+  end
+  
   def appointments_update(delete)
     appointments = @schedule.assignment.appointments.where('day > ?', Date.today)
     appointments = appointments.select{ |appointment| appointment.day.wday == @schedule.weekday }

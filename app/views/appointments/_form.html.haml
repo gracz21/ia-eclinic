@@ -4,7 +4,7 @@
     = f.collection_select :clinic_id, @clinics, :id, :name, { :prompt => "Select clinic first" }, :class => "form-control" 
   .form-group
     = f.label :doctor
-    = f.collection_select :doctor_id, @doctors, :id, :last_name, { :prompt => "Then select doctor" }, :class => "form-control"
+    = f.collection_select :doctor_id, @doctors, :id, :last_name, { :prompt => "Then select doctor" }, :class => "form-control", disabled: true
 
 = form_for @appointment do |f|
   - if @appointment.errors.any?
@@ -17,9 +17,9 @@
   = f.hidden_field :assignment_id
   .form-group
     = f.label :day
-    = f.text_field :day, :placeholder => "Next select date (yyyy-mm-dd)", :class => "form-control", readonly: true
+    = f.text_field :day, :placeholder => "Next select date (yyyy-mm-dd)", :class => "form-control", readonly: true, disabled: true, value: ''
   .form-group
     = f.label :hour
-    = f.collection_select :hour, @hours, :time, :time, { :prompt => "Finaly select hour" }, :class => "form-control"
+    = f.collection_select :hour, @hours, :time, :time, { :prompt => "Finaly select hour" }, :class => "form-control", disabled: true
   .actions
     = f.submit 'Save', :class => "btn btn-primary"

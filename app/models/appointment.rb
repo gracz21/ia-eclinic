@@ -7,11 +7,13 @@ class Appointment < ActiveRecord::Base
   
   private
     def appointment_in_future
-      if day < Date.today
-        errors.add(:day, "can't be date in past")
-      end
-      if day == Date.today and hour.strftime('%H%M') <= Time.zone.now.strftime('%H%M')
-        errors.add(:hour, "has to be in future")
+      if day
+        if day < Date.today
+          errors.add(:day, "can't be date in past")
+        end
+        if day == Date.today and hour.strftime('%H%M') <= Time.zone.now.strftime('%H%M')
+          errors.add(:hour, "has to be in future")
+        end
       end
     end
 end
