@@ -56,6 +56,7 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = current_patient.appointments.build(appointment_params)
     @appointment.save
+    DeleteAppointmentWorker.perform_in(10.minutes, @appointment.id)
     respond_with(@appointment)
   end
 
@@ -121,8 +122,12 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
-    @appointment.destroy
-    respond_with(@appointment)
+    if (@appointment.day < Date.today) or (@appointment.day == Date.today and @appointment.hour.strftime('%H%M') < Time.zone.now.strftime('%H%M'))
+      redirect_to :back
+    else
+      @appointment.destroy
+      respond_with(@appointment)
+    end
   end
 
   private
