@@ -4,6 +4,7 @@ class PatientsController < ApplicationController
   before_action :is_logged_in
   before_action :is_not_patient
   before_action :is_admin, only: [:destroy, :activate]
+  before_action :is_not_doctor, only: [:edit, :update]
   
   respond_to :html
 

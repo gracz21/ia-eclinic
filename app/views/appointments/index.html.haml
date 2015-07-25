@@ -19,10 +19,11 @@
               %th Doctor
             %th Day
             %th Hour
+            - if current_patient
+              %th
             %th
-            %th
-            %th
-            %th
+            - if !current_doctor
+              %th
     
         %tbody
           - @appointments.each_with_index do |appointment, i|
@@ -48,5 +49,6 @@
                     %button.btn.btn-info{ :disabled => true }= 'Confirmed'
               %td= link_to 'Show', appointment, :class => "btn btn-default"
               /%td= link_to 'Edit', edit_appointment_path(appointment), :class => "btn btn-default"
-              %td= link_to 'Destroy', appointment, :method => :delete, 
-                :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"
+              - if !current_doctor
+                %td= link_to 'Destroy', appointment, :method => :delete, 
+                  :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"

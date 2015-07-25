@@ -56,4 +56,20 @@ module AppointmentsHelper
     free_hours.sort_by! { |tmp| [tmp.day, tmp.hour] }
     @appointment_data = free_hours.first
   end
+  
+  def is_authorized_patient
+    if current_patient
+      if @appointment.patient != current_patient
+        redirect_to root_url, notice: "You are not allowed to do that!" and return
+      end
+    end
+  end
+  
+  def is_authorized_doctor
+    if current_doctor
+      if @appointment.assignment.doctor != current_doctor
+        redirect_to root_url, notice: "You are not allowed to do that!" and return
+      end
+    end
+  end
 end

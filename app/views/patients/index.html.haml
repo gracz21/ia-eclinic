@@ -21,7 +21,8 @@
             - if current_admin
               %th
             %th
-            %th
+            - if current_admin
+              %th
             %th
       
         %tbody
@@ -38,5 +39,6 @@
                 - else
                   %td= link_to 'Deactivate', activate_patient_path(patient, :activate => 'false'), :class => "btn btn-danger", :method => :post
               %td= link_to 'Show', patient, :class => "btn btn-default"
-              %td= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default"
+              - if current_admin
+                %td= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default"
               %td= link_to 'Destroy', patient, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-default"

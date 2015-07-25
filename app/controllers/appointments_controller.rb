@@ -4,6 +4,12 @@ class AppointmentsController < ApplicationController
   before_action :is_logged_in
   before_action :set_appointment, only: [:show, :edit, :update, :confirm_appointment,
     :destroy]
+  before_action :is_patient, only: [:new, :create, :doctor_options, 
+    :get_assignment_id, :hour_options, :first_free_clinic, :first_free_doctor,
+    :confirm_appointment]
+  before_action :is_not_doctor, only: [:destroy]
+  before_action :is_authorized_patient, only: :show
+  before_action :is_authorized_doctor, only: :show
 
   respond_to :html
 
