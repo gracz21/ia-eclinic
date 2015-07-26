@@ -26,8 +26,7 @@ class AppointmentsController < ApplicationController
       find_doctors
     end
     if current_doctor
-      @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids,
-        confirmed: true)
+      @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids, confirmed: true).order(:day, :hour)
       find_patients
     end
     if current_admin
@@ -48,14 +47,7 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new
-    @clinics = []
-    Clinic.all.each do |clinic|
-      if clinic.assignments.size > 0
-        @clinics << clinic
-      end
-    end
-    @doctors = []
-    @hours = []
+    appointment_form
     respond_with(@appointment)
   end
 
@@ -69,25 +61,11 @@ class AppointmentsController < ApplicationController
         DeleteAppointmentWorker.perform_at(10.minutes.from_now, @appointment.id)
         redirect_to @appointment
       else
-        @clinics = []
-        Clinic.all.each do |clinic|
-          if clinic.assignments.size > 0
-            @clinics << clinic
-          end
-        end
-        @doctors = []
-        @hours = []
+        appointment_form
         render :new
       end
       rescue Exception
-        @clinics = []
-        Clinic.all.each do |clinic|
-          if clinic.assignments.size > 0
-            @clinics << clinic
-          end
-        end
-        @doctors = []
-        @hours = []
+        appointment_form
         render :new, notice: "An error has occured while saving appointment"
     end
   end
@@ -150,8 +128,10 @@ class AppointmentsController < ApplicationController
   end
   
   def confirm_appointment
-    @appointment.confirmed = true
-    @appointment.save
+    if @appointment.created_at + 10.minutes >= Time.now
+      @appointment.confirmed = true
+      @appointment.save
+    end
     redirect_to(:back)
   end
 
@@ -189,5 +169,16 @@ class AppointmentsController < ApplicationController
 
     def appointment_params
       params.require(:appointment).permit(:assignment_id, :day, :hour)
+    end
+    
+    def appointment_form
+      @clinics = []
+      Clinic.all.each do |clinic|
+        if clinic.assignments.size > 0
+          @clinics << clinic
+        end
+      end
+      @doctors = []
+      @hours = []
     end
 end

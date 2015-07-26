@@ -2,11 +2,12 @@
   %h1 Appointments
   
   .row
-    - if current_patient
-      .col-md-2
-        %h4 Menu
-        %ul.nav.nav-pills.nav-stacked
+    .col-md-2
+      %h4 Menu
+      %ul.nav.nav-pills.nav-stacked
+        - if current_patient
           %li.active{ :role => "presentation" }= link_to 'New Appointment', new_appointment_path
+        %li{ :role => "presentation" }= link_to 'Back', root_path
   
     .col-md-10
       %table.table.table-striped

@@ -2,12 +2,13 @@
   %h1 Patients
 
   .row
-    - if current_admin
-      .col-md-2
-        %h4 Menu
-        %ul.nav.nav-pills.nav-stacked
+    .col-md-2
+      %h4 Menu
+      %ul.nav.nav-pills.nav-stacked
+        - if current_admin
           %li{ :role => "presentation" }= link_to 'Show all Users', patients_path
           %li{ :role => "presentation" }= link_to 'Show users awaiting approval', patients_path(:approved => 'false')
+        %li{ :role => "presentation" }= link_to 'Back', root_path
     
     .col-md-10
       %table.table.table-striped

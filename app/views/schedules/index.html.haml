@@ -10,7 +10,7 @@
       %ul.nav.nav-pills.nav-stacked
         - if current_doctor
           %li.active{ :role => "presentation" }= link_to 'New Schedule', new_doctor_schedule_path(current_doctor)
-        %li{ :role => "presentation" }= link_to 'Back', doctors_path
+        %li{ :role => "presentation" }= link_to 'Back', root_path
   
     .col-md-10
       %table.table.table-striped

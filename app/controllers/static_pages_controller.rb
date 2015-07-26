@@ -7,14 +7,9 @@ class StaticPagesController < ApplicationController
     end
     
     if current_doctor
-      @appointments = []
+      @appointments = Appointment.where(assignment_id: current_doctor.assignment_ids, day: Date.today, confirmed: true).order(:hour)
       @schedules = []
       current_doctor.assignments.each do |assignment|
-        assignment.appointments.where('day >= ?', Date.today).each do |appointment|
-          if @appointments.size < 10
-            @appointments << appointment
-          end 
-        end
         @schedules += assignment.schedules.where(weekday: Date.today.wday)
       end
       find_patients

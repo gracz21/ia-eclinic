@@ -6,7 +6,7 @@
   Today is
   = Date.today
 
-%h3 Your next 10 appointments
+%h3 Your today's appointments
 - if @appointments.size > 0  
   
   %table.table.table-striped
@@ -27,7 +27,7 @@
           %td= appointment.day
           %td= appointment.hour.strftime('%H:%M')
 - else
-  %p You have no future appointments
+  %p You have no appointments today
 
 %h3 Your today's schedule
 - if @appointments.size > 0
