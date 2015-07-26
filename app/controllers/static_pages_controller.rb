@@ -4,6 +4,10 @@ class StaticPagesController < ApplicationController
       @appointments = current_patient.appointments.where('day >= ?', Date.today).limit(10)
       find_doctors
       find_clinics
+      @confirmation_dates = []
+      @appointments.each do |appointment|
+        @confirmation_dates << (appointment.created_at + 10.minutes).strftime('%Y/%m/%d %H:%M:%S')
+      end
     end
     
     if current_doctor

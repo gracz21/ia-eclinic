@@ -44,7 +44,7 @@
                 - if !appointment.confirmed
                   %td= link_to 'Confirm', appointment_confirm_path(appointment), :class => "btn btn-success clock", :method=>'post', 
                     :id => 'appointment_' + i.to_s
-                  = render 'countdown', i: i, date: @confirmation_dates[i]
+                  = render 'shared/countdown', i: i, date: @confirmation_dates[i]
                 - else
                   %td
                     %button.btn.btn-info{ :disabled => true }= 'Confirmed'

@@ -36,7 +36,7 @@
               %td= doctor.pwz
               %td= link_to 'Show', doctor, :class => "btn btn-default"
               - if current_patient
-                %td= link_to 'Book first free appointment', appointment_first_free_doctor_path(doctor), :method=>'post', :class => "btn btn-default"
+                %td= link_to 'Book first free appointment', appointment_first_free_doctor_path(doctor), :method=>'post', :class => "btn btn-info"
               - if current_admin
                 %td= link_to 'Schedule', doctor_schedules_path(doctor), :class => "btn btn-default"
                 %td= link_to 'Edit', edit_doctor_path(doctor), :class => "btn btn-default"
