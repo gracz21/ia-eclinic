@@ -4,7 +4,7 @@ class SchedulesController < ApplicationController
   before_action :is_logged_in
   before_action :set_doc, only: [:index, :show, :new, :edit, 
     :create, :update, :destroy]
-  before_action :is_authorized
+  before_action :is_authorized, only: [:index, :show, :new, :edit, :create, :update, :destroy]
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -51,6 +51,7 @@ class SchedulesController < ApplicationController
     if @schedule.save
       redirect_to doctor_schedule_url(@doctor, @schedule.id)
     else
+      @assignment_id = Assignment.new
       gen_weekday_list
       render :new
     end
