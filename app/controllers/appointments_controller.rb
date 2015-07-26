@@ -137,7 +137,7 @@ class AppointmentsController < ApplicationController
 
   def destroy
     if (@appointment.day < Date.today) or (@appointment.day == Date.today and @appointment.hour.strftime('%H%M') < Time.zone.now.strftime('%H%M'))
-      redirect_to :back
+      redirect_to :back, notice: "You can't delete appointments from past"
     else
       @appointment.destroy
       respond_with(@appointment)

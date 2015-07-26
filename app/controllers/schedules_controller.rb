@@ -58,8 +58,8 @@ class SchedulesController < ApplicationController
   end
 
   def update
+    prev_schedule = @schedule
     if @schedule.update(schedule_params)
-      appointments_update(false)
       redirect_to doctor_schedule_url(@doctor, @schedule.id)
     else
       @assignment_id = Assignment.find(params[:schedule][:assignment_id])
@@ -69,7 +69,6 @@ class SchedulesController < ApplicationController
   end
 
   def destroy
-    appointments_update(true)
     @schedule.destroy
     redirect_to doctor_schedules_url(@doctor)
   end

@@ -36,10 +36,9 @@
               - if current_doctor
                 %td= link_to 'Show', doctor_schedule_path(@doctor, schedule), :class => "btn btn-default"
                 %td= link_to 'Edit', edit_doctor_schedule_path(@doctor, schedule),
-                  :data => { :confirm => 'Changes in schedule may result in removal of appoitnments. Are you sure?' },
                   :class => "btn btn-default"
               - if current_doctor or current_admin
                 %td= link_to 'Destroy', doctor_schedule_path(@doctor, schedule),
                   :method => :delete,
-                  :data => { :confirm => 'This operation may result in removal of appoitnments. Are you sure?' },
+                  :data => { :confirm => 'Are you sure?' },
                   :class => "btn btn-default"
