@@ -65,6 +65,7 @@ class DoctorsController < ApplicationController
   
   def doctor_get_free_appointments
     @hours = []
+    @doctors = []
     if params[:day] != ''
       day = params[:day].to_date
       doctor = Doctor.find(params[:doctor_id])

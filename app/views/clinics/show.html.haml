@@ -32,3 +32,11 @@
                   %td= doctor.pwz
         - else
           No doctors assigned yet
+
+        %h3
+          Free appointments
+        .form-group
+          = hidden_field :clinic, :id, { value: @clinic.id }
+          = text_field :clin, :day, { :placeholder => "Select date (yyyy-mm-dd)", :class => "form-control calendar", readonly: true}
+          
+        #appointments_table

@@ -38,7 +38,7 @@ $ ->
       $("#appointment_day").prop('disabled', 'disabled')
 
 $(document).on 'page:load ready', ->
-  $("#appointment_day").datepicker(dateFormat: "yy-mm-dd", 
+  $(".calendar").datepicker(dateFormat: "yy-mm-dd", 
   minDate: new Date(), beforeShowDay: $.datepicker.noWeekends,
   firstDay: 1)
   

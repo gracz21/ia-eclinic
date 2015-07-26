@@ -24,6 +24,7 @@ module SchedulesHelper
   def appointments_update(delete)
     appointments = @schedule.assignment.appointments.where('day > ?', Date.today)
     appointments = appointments.select{ |appointment| appointment.day.wday == @schedule.weekday }
+    schedules = @schedule.assignment.schedules.where(weekday: @schedule.weekday)
     if delete == true
       appointments.each do |appointment|
         appointment.destroy

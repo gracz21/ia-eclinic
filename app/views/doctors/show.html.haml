@@ -42,6 +42,6 @@
           Free appointments
         .form-group
           = hidden_field :doctor, :id, { value: @doctor.id }
-          = text_field :get, :day, { :placeholder => "Select date (yyyy-mm-dd)", :class => "form-control", readonly: true }
+          = text_field :doc, :day, { :placeholder => "Select date (yyyy-mm-dd)", :class => "form-control calendar", readonly: true }
           
         #appointments_table

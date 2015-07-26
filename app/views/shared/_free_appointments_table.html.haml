@@ -1,0 +1,22 @@
+-if hours.size > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        - if clinic_names.size > 0
+          %th Clinic
+        - if doctors.size > 0
+          %th Doctor
+        %th Hour
+        
+    %tbody
+      - hours.each_with_index do |hour, i|
+        %tr
+          - if clinic_names.size > 0
+            %td= clinic_names[i]
+          - if doctors.size > 0
+            %td
+              = doctors[i].first_name
+              = doctors[i].last_name
+          %td= hour.time.strftime('%H:%M')
+- else
+  %p No free appointments for this day
